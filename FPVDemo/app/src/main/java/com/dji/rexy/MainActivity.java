@@ -246,7 +246,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
     @Override
     public void onClick(View v) {
-//        flightController = FPVDemoApplication.getAircraftInstance().getFlightController();
 
         switch (v.getId()) {
             case R.id.take_off_button:
