@@ -252,7 +252,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             case R.id.take_off_button:
                 if (state == states.Floor) {
                     state = states.Takeoff;
-//                    info.setText(R.string.Takeoff);
                     flightController.startTakeoff(new CommonCallbacks.CompletionCallback() {
                         @Override
                         public void onResult(DJIError djiError) {
