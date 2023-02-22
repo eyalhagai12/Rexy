@@ -1,4 +1,4 @@
-package com.dji.FPVDemo;
+package com.dji.rexy;
 
 import android.app.Application;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -21,7 +20,7 @@ import dji.sdk.products.HandHeld;
 import dji.sdk.sdkmanager.DJISDKInitEvent;
 import dji.sdk.sdkmanager.DJISDKManager;
 
-public class FPVDemoApplication extends Application{
+public class FPVDemoApplication extends Application {
 
     public static final String FLAG_CONNECTION_CHANGE = "fpv_tutorial_connection_change";
 
@@ -29,6 +28,7 @@ public class FPVDemoApplication extends Application{
     public Handler mHandler;
 
     private Application instance;
+
 
     public void setContext(Application application) {
         instance = application;
@@ -54,10 +54,19 @@ public class FPVDemoApplication extends Application{
         return mProduct;
     }
 
+    public static boolean isAircraftConnected() {
+        return getProductInstance() != null && getProductInstance() instanceof Aircraft;
+    }
+
+    public static synchronized Aircraft getAircraftInstance() {
+        if (!isAircraftConnected()) return null;
+        return (Aircraft) getProductInstance();
+    }
+
     public static synchronized Camera getCameraInstance() {
         if (getProductInstance() == null) return null;
         Camera camera = null;
-        if (getProductInstance() instanceof Aircraft){
+        if (getProductInstance() instanceof Aircraft) {
             camera = ((Aircraft) getProductInstance()).getCamera();
         } else if (getProductInstance() instanceof HandHeld) {
             camera = ((HandHeld) getProductInstance()).getCamera();

@@ -7,5 +7,14 @@
     <string name="product_information">Product Information</string>
     <string name="connection_loose">Status: No Product Connected</string>
     <string name="sdk_version">DJI SDK Version: %1$s</string>
+    <string name="Floor">Floor</string>
+    <string name="Takeoff">Takeoff</string>
+    <string name="Land">Land</string>
+    <string name="Forward">Forward</string>
+    <string name="Backward">Backward</string>
+    <string name="SpinRight">Spin Right</string>
+    <string name="SpinLeft">Spin Left</string>
+    <string name="Emergency">Emergency</string>
+    <string name="Hover">Hover</string>
 
 </resources>

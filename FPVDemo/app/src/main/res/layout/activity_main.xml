@@ -1,73 +1,89 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    
+    android:layout_height="match_parent">
+
     <TextureView
         android:id="@+id/video_previewer_surface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="290dp"
+        android:layout_above="@id/button_layout"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/linearLayout" />
-    
-     <LinearLayout 
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:layout_alignParentBottom="true"
-         android:id="@+id/linearLayout">
-    <Button
-        android:id="@+id/btn_capture"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:layout_height="wrap_content"
-        android:text="Capture" 
-        android:textSize="12sp"/>
+        android:layout_gravity="center"
+        android:layout_marginBottom="0dp" />
 
-    <ToggleButton
-        android:id="@+id/btn_record"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Record"
-        android:textOff="Start Record"
-        android:textOn="Stop Record"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:textSize="12dp"
-        android:checked="false" />
-     
-    <Button
-        android:id="@+id/btn_shoot_photo_mode"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="Shoot Photo Mode"
-        android:textSize="12sp"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_record_video_mode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Record Video Mode"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical" />
+        <Button
+            android:id="@+id/land_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Land" />
 
-     </LinearLayout>
+        <Button
+            android:id="@+id/take_off_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Takeoff" />
 
-    <TextView
-        android:id="@+id/timer"
-        android:layout_width="150dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="23dp"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:layout_alignTop="@+id/video_previewer_surface"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/spin_left_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Turn left" />
+
+        <Button
+            android:id="@+id/spin_right_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Turn right" />
+
+        <Button
+            android:id="@+id/backward_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Backward" />
+
+        <Button
+            android:id="@+id/forward_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Forward" />
+
+<!--        <ToggleButton-->
+<!--            android:id="@+id/toggle_vs_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_weight="1"-->
+<!--            android:checked="false"-->
+<!--            android:text="Enable virtual sticks"-->
+<!--            android:textOff="Enable virtual sticks"-->
+<!--            android:textOn="Disable virtual sticks"-->
+<!--            android:textSize="16dp" />-->
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Status"
+            android:textColor="#000000"
+            tools:visibility="visible" />
+    </LinearLayout>
 
 </RelativeLayout>

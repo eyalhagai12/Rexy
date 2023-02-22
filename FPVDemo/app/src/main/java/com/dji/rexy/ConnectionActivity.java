@@ -1,4 +1,4 @@
-package com.dji.FPVDemo;
+package com.dji.rexy;
 
 import android.Manifest;
 import android.app.Activity;
@@ -23,6 +23,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.dji.FPVDemo.R;
+
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
 import dji.log.DJILog;

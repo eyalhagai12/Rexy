@@ -1,4 +1,4 @@
-package com.dji.FPVDemo;
+package com.dji.rexy;
 
 import android.app.Application;
 import android.content.Context;
