@@ -256,11 +256,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     flightController.startTakeoff(new CommonCallbacks.CompletionCallback() {
                         @Override
                         public void onResult(DJIError djiError) {
-
-//                            showToast(djiError.getDescription());
-//                            state = states.Hover;
-//                            info.setText(R.string.Hover);
-//                            info.setText(djiError.getDescription());
+                            state = states.Hover;
                         }
                     });
                 }
@@ -271,13 +267,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     flightController.startLanding(new CommonCallbacks.CompletionCallback() {
                         @Override
                         public void onResult(DJIError djiError) {
-                            if (djiError != null) {
-                                showToast(djiError.getDescription());
-                            } else {
-//                                state = states.Floor;
-//                                info.setText(R.string.Floor);
-//                            info.setText(djiError.getDescription());
-                            }
+                            state = states.Floor;
                         }
                     });
                 }
