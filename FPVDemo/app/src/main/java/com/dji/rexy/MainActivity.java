@@ -38,23 +38,15 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
     private static final String TAG = MainActivity.class.getName();
     protected VideoFeeder.VideoDataListener mReceivedVideoDataListener = null;
-
     // Codec for video live view
     protected DJICodecManager mCodecManager = null;
-
     protected TextureView mVideoSurface = null;
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button;
     //    private ToggleButton toggleVirtualStick;
     private TextView info;
-
     private FlightController flightController;
-
     private Handler handler;
-
     private enum states {Floor, Takeoff, Land, Forward, Backward, Spin_R, Spin_L, Emergency, Hover}
-
-    ;
-
     private states state = states.Floor;
 
     @Override
@@ -79,8 +71,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 }
             }
         };
-
-
     }
 
     protected void onProductChange() {
@@ -228,7 +218,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             mCodecManager.cleanSurface();
             mCodecManager = null;
         }
-
         return false;
     }
 
