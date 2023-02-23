@@ -6,12 +6,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 
-
-public class Log extends Activity {
+public class LogCustom  {
 
     private File file;
     private FileOutputStream fos = null;
@@ -19,10 +16,10 @@ public class Log extends Activity {
 
 
 
-    public Log(){
+    public LogCustom(File filepath){
         try {
             String filename = generateFileName();
-            file = new File(getExternalFilesDir(filepath), filename);
+            file = new File(filepath, filename);
             fos = new FileOutputStream(file);
             fos.write("File Created - Login successfully!".getBytes());
         }

@@ -80,7 +80,8 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
         registerReceiver(mReceiver, filter);
 
         //////////////// TEST!!!!
-
+        LogCustom log = new LogCustom(getExternalFilesDir("LOG"));
+        log.write("try1");
     }
 
     /**
