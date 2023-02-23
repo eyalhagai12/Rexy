@@ -13,11 +13,13 @@ import dji.sdk.products.Aircraft;
 public class FlightCommandsAPI {
 
     private FlightController flightController;
+    private LogCustom log;
     private static final String TAG = FlightCommandsAPI.class.getName();
 
-    public FlightCommandsAPI(){
+    public FlightCommandsAPI(LogCustom main_log){
         initFlightController();
-        Log.d(TAG, "Flight Controller init successfully!");
+        log = main_log;
+        log.write("Flight Controller init successfully!");
 
     }
 
@@ -25,7 +27,7 @@ public class FlightCommandsAPI {
         flightController.startTakeoff(new CommonCallbacks.CompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
-                Log.d(TAG, "Takeoff successfully!");
+                log.write("Takeoff successfully!");
             }
         });
     }
@@ -34,13 +36,21 @@ public class FlightCommandsAPI {
         flightController.getFlightAssistant().setLandingProtectionEnabled(false, new CommonCallbacks.CompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
-                Log.d(TAG, "Disabled protection mode");
+                if (djiError != null){
+                    log.write(djiError.toString());
+                }
+                else
+                    log.write("Disabled protection mode");
             }
         });
         flightController.startLanding(new CommonCallbacks.CompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
-                Log.d(TAG, "Started Landing!");
+                if (djiError != null){
+                    log.write(djiError.toString());
+                }
+                else
+                    log.write("Started Landing!");
             }
         });
     }

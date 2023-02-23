@@ -79,9 +79,6 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
         filter.addAction(FPVDemoApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
 
-        //////////////// TEST!!!!
-        LogCustom log = new LogCustom(getExternalFilesDir("LOG"));
-        log.write("try1");
     }
 
     /**
