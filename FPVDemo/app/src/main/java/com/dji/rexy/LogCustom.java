@@ -12,8 +12,6 @@ public class LogCustom  {
 
     private File file;
     private FileOutputStream fos = null;
-    private String filepath = "LOG";
-
 
 
     public LogCustom(File filepath){
@@ -21,7 +19,7 @@ public class LogCustom  {
             String filename = generateFileName();
             file = new File(filepath, filename);
             fos = new FileOutputStream(file);
-            fos.write("File Created - Login successfully!".getBytes());
+            fos.write("File Created - Login successfully!\n".getBytes());
         }
         catch(FileNotFoundException e){
             e.printStackTrace();
@@ -32,7 +30,7 @@ public class LogCustom  {
 
     public void write(String log_info){
         try{
-            fos.write(log_info.getBytes());
+            fos.write((log_info + "\n").getBytes());
         }
         catch (IOException e){
             e.printStackTrace();
@@ -52,7 +50,7 @@ public class LogCustom  {
     private String generateFileName(){
         String date = "filename";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            date = java.time.Clock.systemUTC().toString();
+            date = java.time.Clock.systemUTC().instant().toString();
         }
 
         return date + ".txt";
