@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button;
     //    private ToggleButton toggleVirtualStick;
     private TextView info;
-    private FlightController flightController;
+    private FlightCommandsAPI FPVcontrol;
     private Handler handler;
     private enum states {Floor, Takeoff, Land, Forward, Backward, Spin_R, Spin_L, Emergency, Hover}
     private states state = states.Floor;
@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
         initUI();
         initListeners();
-        initFlightController();
+        FPVcontrol = new FlightCommandsAPI();
 
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
@@ -240,23 +240,13 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             case R.id.take_off_button:
                 if (state == states.Floor) {
                     state = states.Takeoff;
-                    flightController.startTakeoff(new CommonCallbacks.CompletionCallback() {
-                        @Override
-                        public void onResult(DJIError djiError) {
-                            state = states.Hover;
-                        }
-                    });
+                    FPVcontrol.takeoff();
                 }
                 break;
 
             case R.id.land_button:
                 if (state == states.Hover) {
-                    flightController.startLanding(new CommonCallbacks.CompletionCallback() {
-                        @Override
-                        public void onResult(DJIError djiError) {
-                            state = states.Floor;
-                        }
-                    });
+                    FPVcontrol.land();
                 }
                 break;
 
@@ -265,35 +255,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         }
     }
 
-    private void enableVirtualStick() {
-        flightController.setVirtualStickAdvancedModeEnabled(true);
-    }
-
-    private void disableVirtualStick() {
-        flightController.setVirtualStickAdvancedModeEnabled(false);
-    }
-
-    private void initFlightController() {
-        try {
-            Aircraft aircraft = FPVDemoApplication.getAircraftInstance();
-            if (aircraft == null || !aircraft.isConnected()) {
-                //showToast("Disconnected");
-                flightController = null;
-            } else {
-                // reinit flight controller only if needed
-                if (flightController == null) {
-                    flightController = aircraft.getFlightController();
-                    flightController.setRollPitchControlMode(RollPitchControlMode.VELOCITY);
-                    flightController.setYawControlMode(YawControlMode.ANGULAR_VELOCITY);
-                    flightController.setVerticalControlMode(VerticalControlMode.VELOCITY);
-                    flightController.setRollPitchCoordinateSystem(FlightCoordinateSystem.BODY);
-                }
-
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-    }
 
     private boolean isMavicAir2() {
         BaseProduct baseProduct = FPVDemoApplication.getProductInstance();
