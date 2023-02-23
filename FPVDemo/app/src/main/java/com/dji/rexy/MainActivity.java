@@ -3,6 +3,7 @@ package com.dji.rexy;
 import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.TextureView;
@@ -16,6 +17,10 @@ import android.widget.ToggleButton;
 
 
 import com.dji.FPVDemo.R;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import dji.common.camera.SystemState;
 import dji.common.error.DJIError;
@@ -71,6 +76,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 }
             }
         };
+
     }
 
     protected void onProductChange() {
@@ -140,7 +146,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         }
 
         info = findViewById(R.id.info);
-        info.setText(R.string.Floor);
 //        toggleVirtualStick = button_layout.findViewById(R.id.toggle_vs_button);
         forward_button = findViewById(R.id.forward_button);
         backward_button = findViewById(R.id.backward_button);
