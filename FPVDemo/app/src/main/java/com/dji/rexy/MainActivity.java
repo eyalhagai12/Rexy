@@ -21,6 +21,8 @@ import com.dji.FPVDemo.R;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import dji.common.camera.SystemState;
 import dji.common.error.DJIError;
@@ -46,7 +48,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     // Codec for video live view
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
-    private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button;
+    private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button, save_button;
     //    private ToggleButton toggleVirtualStick;
     private TextView info;
     private FlightCommandsAPI FPVcontrol;
@@ -54,6 +56,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private enum states {Floor, Takeoff, Land, Forward, Backward, Spin_R, Spin_L, Emergency, Hover}
     private states state = states.Floor;
     private LogCustom log;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,15 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
         // create log instance
         log = new LogCustom(getExternalFilesDir("LOG"));
-        log.start();
+        TimerTask t = new TimerTask() {
+            @Override
+            public void run() {
+                log.write();
+            }
+        };
+        timer = new Timer();
+        timer.schedule(t, 0, 1000);
+
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
 
@@ -161,7 +172,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         turn_right_button = findViewById(R.id.spin_right_button);
         land_button = findViewById(R.id.land_button);
         takeoff_button = findViewById(R.id.take_off_button);
-
+        save_button = findViewById(R.id.save_button);
     }
 
     private void initListeners() {
@@ -172,6 +183,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         backward_button.setOnClickListener(this);
         turn_right_button.setOnClickListener(this);
         turn_left_button.setOnClickListener(this);
+        save_button.setOnClickListener(this);
 
 
 //        toggleVirtualStick.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -269,6 +281,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     log.setMode("Floor");
                 }
                 break;
+            case R.id.save_button:
+                timer.cancel();
+                log.close();
+                showToast("Log Saved!");
 
             default:
                 break;

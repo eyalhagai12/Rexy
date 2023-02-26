@@ -5,6 +5,9 @@ import android.app.Activity;
 import java.io.File;
 import java.io.FileWriter;
 import com.opencsv.CSVWriter;
+
+import org.jboss.netty.util.TimerTask;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class LogCustom  extends Thread{
+public class LogCustom  {
 
     private FileWriter file = null;
     private CSVWriter writer = null;
@@ -34,8 +37,9 @@ public class LogCustom  extends Thread{
             file = new FileWriter(new File(filepath, filename));
             writer = new CSVWriter(file);
             // Add columns to the csv file
-            String[] columns = {"Time", "ToF", "Yaw", "pitch", "roll", "Gimbal yaw", "Gimbal pitch", "Gimbal roll", "Battery", "OF", "Mode", "Debug"};
-            writer.writeNext(columns);
+            String[] columns = {"time", "ToF", "Yaw", "pitch", "roll", "Gimbal yaw", "Gimbal pitch", "Gimbal roll", "Battery", "OF", "Mode", "Debug"};
+            writer.writeNext(columns, false);
+
         }
         catch(FileNotFoundException e){
             e.printStackTrace();
@@ -44,22 +48,10 @@ public class LogCustom  extends Thread{
         }
     }
 
-    public void run(){
-        while(true){
-            // update log each 1 second
-            this.write();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void write(){
         //            fos.write((log_info + "\n").getBytes());
         String[] info = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", mode, debug};
-        writer.writeNext(info);
+        writer.writeNext(info, false);
     }
 
     public void close(){

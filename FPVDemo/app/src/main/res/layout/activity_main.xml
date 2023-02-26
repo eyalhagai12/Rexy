@@ -20,6 +20,13 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/save_button"
+            android:layout_width="16dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SAVE" />
+
+        <Button
             android:id="@+id/land_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
