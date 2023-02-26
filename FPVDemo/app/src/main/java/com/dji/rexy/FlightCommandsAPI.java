@@ -19,7 +19,7 @@ public class FlightCommandsAPI {
     public FlightCommandsAPI(LogCustom main_log){
         initFlightController();
         log = main_log;
-//        log.write("Flight Controller init successfully!");
+        log.setDebug("Flight Controller init successfully!");
 
     }
 

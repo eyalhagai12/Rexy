@@ -19,8 +19,8 @@ public class LogCustom  {
 
     private FileWriter file = null;
     private CSVWriter writer = null;
-    private String mode;
-    private String debug;
+    private volatile String mode;
+    private volatile String debug;
 //    private FileOutputStream fos = null;
 
     public LogCustom(File filepath){
@@ -64,11 +64,22 @@ public class LogCustom  {
     }
 
     public void setMode(String new_mode){
-        mode = new_mode;
+        try{
+            mode = new_mode;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void setDebug(String new_debug){
-        debug = new_debug;
+        try{
+            debug = new_debug;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private String generateFileName(){

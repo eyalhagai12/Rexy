@@ -65,16 +65,12 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         setContentView(R.layout.activity_main);
 
         handler = new Handler();
-
         initUI();
-//        log.write("UI initialized successfully");
         initListeners();
-//        log.write("Listeners initialized successfully");
-        FPVcontrol = new FlightCommandsAPI(log);
-//        log.write("Created an instance of the FlightCommandAPI");
 
         // create log instance
         log = new LogCustom(getExternalFilesDir("LOG"));
+
         TimerTask t = new TimerTask() {
             @Override
             public void run() {
@@ -83,6 +79,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         };
         timer = new Timer();
         timer.schedule(t, 0, 1000);
+
+        FPVcontrol = new FlightCommandsAPI(log);
 
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
