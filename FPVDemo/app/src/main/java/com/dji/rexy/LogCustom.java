@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class LogCustom  {
+public class LogCustom  extends Thread{
 
     private FileWriter file = null;
     private CSVWriter writer = null;
+    private String mode;
+    private String debug;
 //    private FileOutputStream fos = null;
 
     public LogCustom(File filepath){
@@ -23,6 +25,10 @@ public class LogCustom  {
 //            file = new File(filepath, filename);
 //            fos = new FileOutputStream(file);
 //            fos.write("File Created - Login successfully!\n".getBytes());
+            // init the mode indicator
+            mode = "Floor";
+            // init the debug message
+            debug = "debug";
             // init Log file
             String filename = generateFileName();
             file = new FileWriter(new File(filepath, filename));
@@ -38,9 +44,21 @@ public class LogCustom  {
         }
     }
 
-    public void write(String log_info){
+    public void run(){
+        while(true){
+            // update log each 1 second
+            this.write();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void write(){
         //            fos.write((log_info + "\n").getBytes());
-        String[] info = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+        String[] info = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", mode, debug};
         writer.writeNext(info);
     }
 
@@ -51,7 +69,14 @@ public class LogCustom  {
         catch(IOException e){
             e.printStackTrace();
         }
+    }
 
+    public void setMode(String new_mode){
+        mode = new_mode;
+    }
+
+    public void setDebug(String new_debug){
+        debug = new_debug;
     }
 
     private String generateFileName(){

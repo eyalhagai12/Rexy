@@ -19,7 +19,7 @@ public class FlightCommandsAPI {
     public FlightCommandsAPI(LogCustom main_log){
         initFlightController();
         log = main_log;
-        log.write("Flight Controller init successfully!");
+//        log.write("Flight Controller init successfully!");
 
     }
 
@@ -27,7 +27,7 @@ public class FlightCommandsAPI {
         flightController.startTakeoff(new CommonCallbacks.CompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
-                log.write("Takeoff successfully!");
+                log.setDebug("Takeoff successfully!");
             }
         });
     }
@@ -37,20 +37,21 @@ public class FlightCommandsAPI {
             @Override
             public void onResult(DJIError djiError) {
                 if (djiError != null){
-                    log.write(djiError.toString());
+                    log.setDebug(djiError.toString());
                 }
                 else
-                    log.write("Disabled protection mode");
+                    log.setDebug("Disabled protection mode");
             }
         });
         flightController.startLanding(new CommonCallbacks.CompletionCallback() {
             @Override
             public void onResult(DJIError djiError) {
                 if (djiError != null){
-                    log.write(djiError.toString());
+                    log.setDebug(djiError.toString());
                 }
                 else
-                    log.write("Started Landing!");
+                    log.setDebug("Started Landing!");
+
             }
         });
     }
@@ -74,7 +75,7 @@ public class FlightCommandsAPI {
                 //showToast("Disconnected");
                 flightController = null;
             } else {
-                // reinit flight controller only if needed
+                // re-init flight controller only if needed
                 if (flightController == null) {
                     flightController = aircraft.getFlightController();
                     flightController.setRollPitchControlMode(RollPitchControlMode.VELOCITY);

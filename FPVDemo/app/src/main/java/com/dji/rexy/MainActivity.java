@@ -60,18 +60,19 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // create log instance
-        log = new LogCustom(getExternalFilesDir("LOG"));
 
         handler = new Handler();
 
         initUI();
-        log.write("UI initialized successfully");
+//        log.write("UI initialized successfully");
         initListeners();
-        log.write("Listeners initialized successfully");
+//        log.write("Listeners initialized successfully");
         FPVcontrol = new FlightCommandsAPI(log);
-        log.write("Created an instance of the FlightCommandAPI");
+//        log.write("Created an instance of the FlightCommandAPI");
 
+        // create log instance
+        log = new LogCustom(getExternalFilesDir("LOG"));
+        log.start();
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
 
@@ -82,7 +83,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 }
             }
         };
-        log.write("Video receiver initialized successfully");
+//        log.write("Video receiver initialized successfully");
 
     }
 
@@ -252,20 +253,20 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             case R.id.take_off_button:
                 if (state == states.Floor) {
                     state = states.Takeoff;
-                    log.write("State: Takeoff");
+                    log.setMode("Takeoff");
                     FPVcontrol.takeoff();
                     state = states.Hover;
-                    log.write("State: Hover");
+                    log.setMode("Hover");
                 }
                 break;
 
             case R.id.land_button:
                 if (state == states.Hover) {
                     state = states.Land;
-                    log.write("State: Land");
+                    log.setMode("Land");
                     FPVcontrol.land();
                     state = states.Floor;
-                    log.write("State: Floor");
+                    log.setMode("Floor");
                 }
                 break;
 
