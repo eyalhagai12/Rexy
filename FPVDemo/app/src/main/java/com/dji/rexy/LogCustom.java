@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dji.sdk.flightcontroller.FlightController;
+
 
 public class LogCustom  {
 
@@ -21,6 +23,7 @@ public class LogCustom  {
     private CSVWriter writer = null;
     private volatile String mode;
     private volatile String debug;
+    private FlightController flightController;
 //    private FileOutputStream fos = null;
 
     public LogCustom(File filepath){
@@ -37,7 +40,7 @@ public class LogCustom  {
             file = new FileWriter(new File(filepath, filename));
             writer = new CSVWriter(file);
             // Add columns to the csv file
-            String[] columns = {"time", "ToF", "Yaw", "pitch", "roll", "Gimbal yaw", "Gimbal pitch", "Gimbal roll", "Battery", "OF", "Mode", "Debug"};
+            String[] columns = {"time", "ToF", "Yaw", "pitch", "roll", "Lat", "Lon", "Gimbal yaw", "Gimbal pitch", "Gimbal roll", "Baro","Battery", "OF", "Mode", "Debug"};
             writer.writeNext(columns, false);
 
         }
@@ -50,7 +53,7 @@ public class LogCustom  {
 
     public void write(){
         //            fos.write((log_info + "\n").getBytes());
-        String[] info = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", mode, debug};
+        String[] info = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", mode, debug};
         writer.writeNext(info, false);
     }
 
@@ -80,6 +83,10 @@ public class LogCustom  {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void setController(FlightController controller){
+        flightController = controller;
     }
 
     private String generateFileName(){
