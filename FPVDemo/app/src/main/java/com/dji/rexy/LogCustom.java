@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dji.common.flightcontroller.Attitude;
 import dji.sdk.flightcontroller.FlightController;
+import dji.sdk.gimbal.Gimbal;
 
 
 public class LogCustom  {
@@ -24,6 +26,8 @@ public class LogCustom  {
     private volatile String mode;
     private volatile String debug;
     private FlightController flightController;
+    private Gimbal gimbal;
+
 //    private FileOutputStream fos = null;
 
     public LogCustom(File filepath){
@@ -52,8 +56,26 @@ public class LogCustom  {
     }
 
     public void write(){
-        //            fos.write((log_info + "\n").getBytes());
-        String[] info = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", mode, debug};
+
+        double lat = flightController.getState().getAircraftLocation().getLatitude();
+        double lon = flightController.getState().getAircraftLocation().getLongitude();
+        Attitude vals = flightController.getState().getAttitude();
+        String[] info =
+            {       "0",
+                    "0",
+                    Double.toString(vals.yaw),
+                    Double.toString(vals.pitch),
+                    Double.toString(vals.roll),
+                    Double.toString(lat),
+                    Double.toString(lon),
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    mode,
+                    debug};
         writer.writeNext(info, false);
     }
 
@@ -73,7 +95,6 @@ public class LogCustom  {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     public void setDebug(String new_debug){
@@ -87,6 +108,10 @@ public class LogCustom  {
 
     public void setController(FlightController controller){
         flightController = controller;
+    }
+
+    public void setGimbal(Gimbal new_gimbal){
+        gimbal = new_gimbal;
     }
 
     private String generateFileName(){

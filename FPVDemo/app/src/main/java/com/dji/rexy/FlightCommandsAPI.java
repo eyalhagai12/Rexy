@@ -14,12 +14,14 @@ public class FlightCommandsAPI {
 
     private FlightController flightController;
     private LogCustom log;
+    private Aircraft aircraft;
     private static final String TAG = FlightCommandsAPI.class.getName();
 
     public FlightCommandsAPI(LogCustom main_log){
         initFlightController();
         log = main_log;
         log.setController(flightController);
+        log.setGimbal(aircraft.getGimbal());
         log.setDebug("Flight Controller init successfully!");
 
     }
@@ -71,7 +73,7 @@ public class FlightCommandsAPI {
 
     private void initFlightController() {
         try {
-            Aircraft aircraft = FPVDemoApplication.getAircraftInstance();
+            aircraft = FPVDemoApplication.getAircraftInstance();
             if (aircraft == null || !aircraft.isConnected()) {
                 //showToast("Disconnected");
                 flightController = null;
