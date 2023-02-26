@@ -31,6 +31,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.dji.FPVDemo.R;
+import com.opencsv.CSVWriter;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
@@ -78,6 +79,29 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
         IntentFilter filter = new IntentFilter();
         filter.addAction(FPVDemoApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
+
+        // TEST - csv
+        FileWriter file2 = null;
+        try {
+            file2 = new FileWriter(new File(getExternalFilesDir("LOG"), "test.csv"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        CSVWriter test = new CSVWriter(file2);
+        String[] columns = {"col1", "col2"};
+        String[] columns2 = {"1", "22"};
+        List<String[]> lst = new ArrayList<>();
+        lst.add(columns);
+        lst.add(columns2);
+//        test.writeAll(lst);
+        test.writeNext(columns);
+        test.writeNext(columns2);
+        try {
+            test.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
