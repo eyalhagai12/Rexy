@@ -3,6 +3,8 @@ package com.dji.rexy;
 import android.app.Activity;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 import java.io.FileWriter;
 import com.opencsv.CSVWriter;
@@ -17,9 +19,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import dji.common.battery.BatteryState;
 import dji.common.flightcontroller.Attitude;
 import dji.common.gimbal.CapabilityKey;
+import dji.common.gimbal.GimbalState;
 import dji.common.util.DJIParamMinMaxCapability;
+import dji.sdk.battery.Battery;
 import dji.sdk.flightcontroller.FlightController;
 import dji.sdk.gimbal.Gimbal;
 
@@ -32,10 +37,11 @@ public class LogCustom  {
     private volatile String debug;
     private FlightController flightController;
     private Gimbal gimbal;
+    private Battery battery;
     private Instant start_time;
     private Duration time_passed_sec;
 
-    private Double gimbal_pitch, gimbal_yaw, gimbal_roll, battery_remaining;
+    private volatile Double gimbal_pitch, gimbal_yaw, gimbal_roll, battery_remaining;
 
 //    private FileOutputStream fos = null;
 
@@ -80,6 +86,7 @@ public class LogCustom  {
         }
 
         Attitude vals = flightController.getState().getAttitude();
+
         String[] info =
             {       time_passed_sec.toString(),
                     "0",
@@ -132,6 +139,32 @@ public class LogCustom  {
 
     public void setGimbal(Gimbal new_gimbal){
         gimbal = new_gimbal;
+    }
+
+    public void setBattery(Battery new_battery){
+        battery = new_battery;
+    }
+
+    private void initListeners(){
+        /*
+            This method initialize on-update callback functions for:
+            Gimbal-params, battery value.
+         */
+        gimbal.setStateCallback(new GimbalState.Callback() {
+            @Override
+            public void onUpdate(@NonNull GimbalState gimbalState) {
+                gimbal_pitch = (double) (-1 * gimbalState.getAttitudeInDegrees().getPitch());
+                gimbal_yaw = (double) (gimbalState.getAttitudeInDegrees().getYaw());
+                gimbal_roll = (double) (gimbalState.getAttitudeInDegrees().getRoll());
+            }
+        });
+
+        battery.setStateCallback(new BatteryState.Callback() {
+            @Override
+            public void onUpdate(BatteryState batteryState) {
+                battery_remaining = (double) batteryState.getLifetimeRemaining();
+            }
+        });
     }
 
     private String generateFileName(){
