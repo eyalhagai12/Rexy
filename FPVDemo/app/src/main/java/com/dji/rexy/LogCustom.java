@@ -1,6 +1,7 @@
 package com.dji.rexy;
 
 import android.app.Activity;
+import android.os.Build;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,6 +12,8 @@ import org.jboss.netty.util.TimerTask;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,9 @@ public class LogCustom  {
     private FlightController flightController;
     private Gimbal gimbal;
 
+    private Instant start_time;
+    private Duration time_passed_sec;
+
 //    private FileOutputStream fos = null;
 
     public LogCustom(File filepath){
@@ -39,6 +45,10 @@ public class LogCustom  {
             mode = "Floor";
             // init the debug message
             debug = "debug";
+            // init the timer
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                start_time = Instant.now();
+            }
             // init Log file
             String filename = generateFileName();
             file = new FileWriter(new File(filepath, filename));
@@ -59,9 +69,14 @@ public class LogCustom  {
 
         double lat = flightController.getState().getAircraftLocation().getLatitude();
         double lon = flightController.getState().getAircraftLocation().getLongitude();
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            time_passed_sec = Duration.between(start_time, Instant.now());
+        }
+
         Attitude vals = flightController.getState().getAttitude();
         String[] info =
-            {       "0",
+            {       time_passed_sec.toString(),
                     "0",
                     Double.toString(vals.yaw),
                     Double.toString(vals.pitch),

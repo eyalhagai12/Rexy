@@ -71,6 +71,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         // create log instance
         log = new LogCustom(getExternalFilesDir("LOG"));
 
+        FPVcontrol = new FlightCommandsAPI(log);
+        // set a new timer for updating the Log each 1 second
         TimerTask t = new TimerTask() {
             @Override
             public void run() {
@@ -78,9 +80,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             }
         };
         timer = new Timer();
-        timer.schedule(t, 0, 1000);
+        timer.schedule(t, 0, 100);
 
-        FPVcontrol = new FlightCommandsAPI(log);
 
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
