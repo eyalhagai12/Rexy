@@ -40,6 +40,7 @@ public class LogCustom  {
     private Battery battery;
     private Instant start_time;
     private Duration time_passed_sec;
+    private Double lon, lat, tof;
 
     private volatile Double gimbal_pitch, gimbal_yaw, gimbal_roll, battery_remaining;
 
@@ -78,18 +79,19 @@ public class LogCustom  {
 
     public void write(){
 
-        double lat = flightController.getState().getAircraftLocation().getLatitude();
-        double lon = flightController.getState().getAircraftLocation().getLongitude();
+        lat = flightController.getState().getAircraftLocation().getLatitude();
+        lon = flightController.getState().getAircraftLocation().getLongitude();
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             time_passed_sec = Duration.between(start_time, Instant.now());
         }
 
         Attitude vals = flightController.getState().getAttitude();
+        tof = (double) flightController.getState().getUltrasonicHeightInMeters();
 
         String[] info =
             {       time_passed_sec.toString(),
-                    "0",
+                    Double.toString(tof),
                     Double.toString(vals.yaw),
                     Double.toString(vals.pitch),
                     Double.toString(vals.roll),
