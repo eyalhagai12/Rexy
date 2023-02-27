@@ -1,6 +1,8 @@
 package com.dji.rexy;
 import android.util.Log;
+import android.widget.TextView;
 
+import dji.common.battery.BatteryState;
 import dji.common.error.DJIError;
 import dji.common.flightcontroller.virtualstick.FlightCoordinateSystem;
 import dji.common.flightcontroller.virtualstick.RollPitchControlMode;
@@ -15,10 +17,12 @@ public class FlightCommandsAPI {
     private FlightController flightController;
     private LogCustom log;
     private Aircraft aircraft;
+    private TextView bat_status;
     private static final String TAG = FlightCommandsAPI.class.getName();
 
-    public FlightCommandsAPI(LogCustom main_log){
+    public FlightCommandsAPI(LogCustom main_log, TextView bat_stat){
         initFlightController();
+        bat_status = bat_stat;
         // init log variables
         log = main_log;
         log.setController(flightController);
@@ -62,6 +66,14 @@ public class FlightCommandsAPI {
         });
     }
 
+    private void initListeners(){
+        aircraft.getBattery().setStateCallback(new BatteryState.Callback() {
+            @Override
+            public void onUpdate(BatteryState batteryState) {
+                bat_status.setText(Integer.toString(batteryState.getLifetimeRemaining()));
+            }
+        });
+    }
 
     private void enableVirtualStick() {
         flightController.setVirtualStickAdvancedModeEnabled(true);

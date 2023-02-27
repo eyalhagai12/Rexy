@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     protected TextureView mVideoSurface = null;
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button, save_button;
     //    private ToggleButton toggleVirtualStick;
-    private TextView info;
+    private TextView info, bat_status;
     private FlightCommandsAPI FPVcontrol;
     private Handler handler;
     private enum states {Floor, Takeoff, Land, Forward, Backward, Spin_R, Spin_L, Emergency, Hover}
@@ -71,7 +71,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         // create log instance
         log = new LogCustom(getExternalFilesDir("LOG"));
 
-        FPVcontrol = new FlightCommandsAPI(log);
+        FPVcontrol = new FlightCommandsAPI(log, bat_status);
         // set a new timer for updating the Log each 1 second
         TimerTask t = new TimerTask() {
             @Override
@@ -163,7 +163,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             mVideoSurface.setSurfaceTextureListener(this);
         }
 
-        info = findViewById(R.id.info);
+        info = findViewById(R.id.status);
+        info.setText(new String("Floor"));
+        bat_status = findViewById(R.id.Battery_status);
+        bat_status.setText(new String("100"));
 //        toggleVirtualStick = button_layout.findViewById(R.id.toggle_vs_button);
         forward_button = findViewById(R.id.forward_button);
         backward_button = findViewById(R.id.backward_button);
@@ -264,9 +267,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             case R.id.take_off_button:
                 if (state == states.Floor) {
                     state = states.Takeoff;
+                    info.setText(new String("Takeoff"));
                     log.setMode("Takeoff");
                     FPVcontrol.takeoff();
                     state = states.Hover;
+                    info.setText(new String("Hover"));
                     log.setMode("Hover");
                 }
                 break;
@@ -274,9 +279,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             case R.id.land_button:
                 if (state == states.Hover) {
                     state = states.Land;
+                    info.setText(new String("Landing"));
                     log.setMode("Land");
                     FPVcontrol.land();
                     state = states.Floor;
+                    info.setText(new String("Floor"));
                     log.setMode("Floor");
                 }
                 break;
