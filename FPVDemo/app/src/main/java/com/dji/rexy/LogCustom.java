@@ -40,7 +40,7 @@ public class LogCustom  {
     private Battery battery;
     private Instant start_time;
     private Duration time_passed_sec;
-    private Double lon, lat, tof;
+    private Double lon, lat, tof, velX, velY;
 
     private volatile Double gimbal_pitch, gimbal_yaw, gimbal_roll, battery_remaining;
 
@@ -66,7 +66,7 @@ public class LogCustom  {
             file = new FileWriter(new File(filepath, filename));
             writer = new CSVWriter(file);
             // Add columns to the csv file
-            String[] columns = {"time", "ToF", "Yaw", "pitch", "roll", "Lat", "Lon", "Gimbal yaw", "Gimbal pitch", "Gimbal roll", "Baro","Battery", "OF", "Mode", "Debug"};
+            String[] columns = {"time", "ToF", "Yaw", "pitch", "roll", "Lat", "Lon", "Gimbal yaw", "Gimbal pitch", "Gimbal roll", "Baro","Battery", "VelX", "VelY", "Mode", "Debug"};
             writer.writeNext(columns, false);
 
         }
@@ -81,13 +81,13 @@ public class LogCustom  {
 
         lat = flightController.getState().getAircraftLocation().getLatitude();
         lon = flightController.getState().getAircraftLocation().getLongitude();
-
+        Attitude vals = flightController.getState().getAttitude();
+        tof = (double) flightController.getState().getUltrasonicHeightInMeters();
+        velX = (double) flightController.getState().getVelocityX();
+        velY = (double) flightController.getState().getVelocityY();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             time_passed_sec = Duration.between(start_time, Instant.now());
         }
-
-        Attitude vals = flightController.getState().getAttitude();
-        tof = (double) flightController.getState().getUltrasonicHeightInMeters();
 
         String[] info =
             {       time_passed_sec.toString(),
@@ -102,7 +102,8 @@ public class LogCustom  {
                     Double.toString(gimbal_roll),
                     "0",
                     Double.toString(battery_remaining),
-                    "0",
+                    Double.toString(velX),
+                    Double.toString(velY),
                     mode,
                     debug};
         writer.writeNext(info, false);
