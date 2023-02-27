@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dji.common.flightcontroller.Attitude;
+import dji.common.gimbal.CapabilityKey;
+import dji.common.util.DJIParamMinMaxCapability;
 import dji.sdk.flightcontroller.FlightController;
 import dji.sdk.gimbal.Gimbal;
 
@@ -30,17 +32,15 @@ public class LogCustom  {
     private volatile String debug;
     private FlightController flightController;
     private Gimbal gimbal;
-
     private Instant start_time;
     private Duration time_passed_sec;
+
+    private Double gimbal_pitch, gimbal_yaw, gimbal_roll, battery_remaining;
 
 //    private FileOutputStream fos = null;
 
     public LogCustom(File filepath){
         try {
-//            file = new File(filepath, filename);
-//            fos = new FileOutputStream(file);
-//            fos.write("File Created - Login successfully!\n".getBytes());
             // init the mode indicator
             mode = "Floor";
             // init the debug message
@@ -49,6 +49,11 @@ public class LogCustom  {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 start_time = Instant.now();
             }
+            // init drone params
+            gimbal_pitch = 0.0;
+            gimbal_yaw = 0.0;
+            gimbal_roll = 0.0;
+            battery_remaining = 0.0;
             // init Log file
             String filename = generateFileName();
             file = new FileWriter(new File(filepath, filename));
@@ -83,11 +88,11 @@ public class LogCustom  {
                     Double.toString(vals.roll),
                     Double.toString(lat),
                     Double.toString(lon),
+                    Double.toString(gimbal_yaw),
+                    Double.toString(gimbal_pitch),
+                    Double.toString(gimbal_roll),
                     "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
+                    Double.toString(battery_remaining),
                     "0",
                     mode,
                     debug};
