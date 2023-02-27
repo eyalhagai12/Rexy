@@ -100,7 +100,7 @@ public class LogCustom  {
                     Double.toString(gimbal_yaw),
                     Double.toString(gimbal_pitch),
                     Double.toString(gimbal_roll),
-                    "0",
+                    "BarometerNull",
                     Double.toString(battery_remaining),
                     Double.toString(velX),
                     Double.toString(velY),
