@@ -145,7 +145,7 @@ public class LogCustom  {
         battery = new_battery;
     }
 
-    private void initListeners(){
+    public void initListeners(){
         /*
             This method initialize on-update callback functions for:
             Gimbal-params, battery value.

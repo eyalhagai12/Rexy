@@ -19,10 +19,12 @@ public class FlightCommandsAPI {
 
     public FlightCommandsAPI(LogCustom main_log){
         initFlightController();
+        // init log variables
         log = main_log;
         log.setController(flightController);
         log.setGimbal(aircraft.getGimbal());
         log.setBattery(aircraft.getBattery());
+        log.initListeners();
         log.setDebug("Flight Controller init successfully!");
 
     }
