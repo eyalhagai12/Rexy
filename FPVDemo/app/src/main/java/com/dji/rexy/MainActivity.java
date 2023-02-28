@@ -36,12 +36,13 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     // Codec for video live view
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
-    private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button, save_button, stop_button;
+    private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button,
+            takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button;
     //    private ToggleButton toggleVirtualStick;
     private TextView info, bat_status;
     private FlightCommandsAPI FPVcontrol;
     private Handler handler;
-    private enum states {Floor, Takeoff, Land, Forward, Backward, Spin_R, Spin_L, Emergency, Hover}
+    private enum states {Floor, Takeoff, Land, Forward, Backward, Yaw_R, Yaw_L,Right, Left, Emergency, Hover}
     private states state = states.Floor;
     private LogCustom log;
     private Timer timer;
@@ -158,8 +159,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 //        toggleVirtualStick = button_layout.findViewById(R.id.toggle_vs_button);
         forward_button = findViewById(R.id.forward_button);
         backward_button = findViewById(R.id.backward_button);
-        turn_left_button = findViewById(R.id.yaw_left_button);
-        turn_right_button = findViewById(R.id.yaw_right_button);
+        yaw_left_button = findViewById(R.id.yaw_left_button);
+        yaw_right_button = findViewById(R.id.yaw_right_button);
+        turn_left_button = findViewById(R.id.turn_left_button);
+        turn_right_button = findViewById(R.id.turn_right_button);
         land_button = findViewById(R.id.land_button);
         takeoff_button = findViewById(R.id.take_off_button);
         save_button = findViewById(R.id.save_button);
@@ -176,6 +179,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         turn_left_button.setOnClickListener(this);
         save_button.setOnClickListener(this);
         stop_button.setOnClickListener(this);
+        yaw_left_button.setOnClickListener(this);
+        yaw_right_button.setOnClickListener(this);
 
 
 //        toggleVirtualStick.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
