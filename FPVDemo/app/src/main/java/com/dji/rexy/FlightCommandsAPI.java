@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 import dji.common.battery.BatteryState;
 import dji.common.error.DJIError;
+import dji.common.flightcontroller.virtualstick.FlightControlData;
 import dji.common.flightcontroller.virtualstick.FlightCoordinateSystem;
 import dji.common.flightcontroller.virtualstick.RollPitchControlMode;
 import dji.common.flightcontroller.virtualstick.VerticalControlMode;
@@ -18,6 +19,7 @@ public class FlightCommandsAPI {
     private LogCustom log;
     private Aircraft aircraft;
     private TextView bat_status;
+    private FlightControlData flightcontroldata;
     private static final String TAG = FlightCommandsAPI.class.getName();
 
     public FlightCommandsAPI(LogCustom main_log, TextView bat_stat){
@@ -66,6 +68,30 @@ public class FlightCommandsAPI {
         });
     }
 
+    public void setControlCommand(float yaw, float pitch, float roll, float throttle, float gimbal_pitch){
+        /*
+            This method receives flight params and sends a command to the drone
+         */
+        flightcontroldata.setPitch(pitch);
+        flightcontroldata.setRoll(roll);
+        flightcontroldata.setYaw(yaw);
+        flightcontroldata.setVerticalThrottle(throttle);
+
+        if (flightController.isVirtualStickControlModeAvailable()) {
+            flightController.setVerticalControlMode(VerticalControlMode.VELOCITY);
+            flightController.sendVirtualStickFlightControlData(flightcontroldata, new CommonCallbacks.CompletionCallback() {
+                @Override
+                public void onResult(DJIError djiError) {
+                    if (djiError != null){
+                        log.setDebug(djiError.toString());
+                    }
+                    else
+                        log.setDebug("Command sent successfully");
+                }
+            });
+        }
+    }
+
     private void initListeners(){
         aircraft.getBattery().setStateCallback(new BatteryState.Callback() {
             @Override
@@ -88,6 +114,7 @@ public class FlightCommandsAPI {
 
     private void initFlightController() {
         try {
+            flightcontroldata = new FlightControlData(0, 0, 0, 0);
             aircraft = FPVDemoApplication.getAircraftInstance();
             if (aircraft == null || !aircraft.isConnected()) {
                 //showToast("Disconnected");
