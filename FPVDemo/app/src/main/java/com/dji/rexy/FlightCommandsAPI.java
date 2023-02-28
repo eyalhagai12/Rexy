@@ -97,6 +97,15 @@ public class FlightCommandsAPI {
         command_name = "Forward";
     }
 
+    public void backward(float new_pitch){
+        roll = 0;
+        pitch = new_pitch;
+        yaw = 0;
+        throttle = 0;
+        gimbal_pitch = 0;
+        command_name = "Backward";
+    }
+
     private void setCommandTimerTask(){
         TimerTask task = new TimerTask() {
             @Override

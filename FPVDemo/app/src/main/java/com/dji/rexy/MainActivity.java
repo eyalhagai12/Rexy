@@ -295,9 +295,17 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     state = states.Forward;
                     info.setText(new String("Forward"));
                     log.setMode("Forward");
-                    FPVcontrol.forward((float) 0.1);
+                    FPVcontrol.forward((float) 0.5);
                 }
                 break;
+
+            case R.id.backward_button:
+                if (state != states.Floor){
+                    state = states.Backward;
+                    info.setText(new String("Backward"));
+                    log.setMode("Backward");
+                    FPVcontrol.backward((float) -0.5);
+                }
 
             case R.id.stop_button:
                 state = states.Hover;
