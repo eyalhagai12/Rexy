@@ -288,7 +288,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     state = states.Forward;
                     info.setText(new String("Forward"));
                     log.setMode("Forward");
-                    FPVcontrol.forward((float) 0.5);
+                    FPVcontrol.set_pitch((float) 0.5, "Forward");
                 }
                 break;
 
@@ -297,8 +297,27 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     state = states.Backward;
                     info.setText(new String("Backward"));
                     log.setMode("Backward");
-                    FPVcontrol.backward((float) -0.5);
+                    FPVcontrol.set_pitch((float) -0.5, "Backward");
                 }
+                break;
+
+            case R.id.yaw_left_button:
+                if (state != states.Floor){
+                    state = states.Yaw_L;
+                    info.setText(new String("Yaw left"));
+                    log.setMode("Yaw Left");
+                    FPVcontrol.set_yaw((float) -0.2, "Yaw Left");
+                }
+                break;
+
+            case R.id.yaw_right_button:
+                if (state != states.Floor){
+                    state = states.Yaw_L;
+                    info.setText(new String("Yaw right"));
+                    log.setMode("Yaw Right");
+                    FPVcontrol.set_yaw((float) 0.2, "Yaw Right");
+                }
+                break;
 
             case R.id.stop_button:
                 state = states.Hover;

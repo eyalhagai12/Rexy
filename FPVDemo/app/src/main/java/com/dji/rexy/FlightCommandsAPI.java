@@ -88,23 +88,24 @@ public class FlightCommandsAPI {
         gimbal_pitch = 0;
         command_name = "stay on place";
     }
-    public void forward(float new_pitch){
+    public void set_pitch(float new_pitch, String command){
         roll = 0;
         pitch = new_pitch;
         yaw = 0;
         throttle = 0;
         gimbal_pitch = 0;
-        command_name = "Forward";
+        command_name = command;
     }
 
-    public void backward(float new_pitch){
+    public void set_yaw(float new_yaw, String command){
         roll = 0;
-        pitch = new_pitch;
-        yaw = 0;
+        pitch = 0;
+        yaw = new_yaw;
         throttle = 0;
         gimbal_pitch = 0;
-        command_name = "Backward";
+        command_name = command;
     }
+
 
     private void setCommandTimerTask(){
         TimerTask task = new TimerTask() {
