@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     // Codec for video live view
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
-    private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button, save_button;
+    private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button, takeoff_button, save_button, stop_button;
     //    private ToggleButton toggleVirtualStick;
     private TextView info, bat_status;
     private FlightCommandsAPI FPVcontrol;
@@ -175,6 +175,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         land_button = findViewById(R.id.land_button);
         takeoff_button = findViewById(R.id.take_off_button);
         save_button = findViewById(R.id.save_button);
+        stop_button = findViewById(R.id.stop_button);
     }
 
     private void initListeners() {
@@ -186,6 +187,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         turn_right_button.setOnClickListener(this);
         turn_left_button.setOnClickListener(this);
         save_button.setOnClickListener(this);
+        stop_button.setOnClickListener(this);
 
 
 //        toggleVirtualStick.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -287,6 +289,23 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     log.setMode("Floor");
                 }
                 break;
+
+            case R.id.forward_button:
+                if (state == states.Hover){
+                    state = states.Forward;
+                    info.setText(new String("Forward"));
+                    log.setMode("Forward");
+                    FPVcontrol.forward((float) 0.1);
+                }
+                break;
+
+            case R.id.stop_button:
+                state = states.Hover;
+                info.setText(new String("Hover"));
+                log.setMode("Hover");
+                FPVcontrol.stayOnPlace();
+                break;
+
             case R.id.save_button:
                 timer.cancel();
                 log.close();
