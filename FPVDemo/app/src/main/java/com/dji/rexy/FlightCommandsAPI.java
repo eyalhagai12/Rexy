@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 import dji.common.battery.BatteryState;
 import dji.common.error.DJIError;
+import dji.common.flightcontroller.FlightOrientationMode;
 import dji.common.flightcontroller.virtualstick.FlightControlData;
 import dji.common.flightcontroller.virtualstick.FlightCoordinateSystem;
 import dji.common.flightcontroller.virtualstick.RollPitchControlMode;
@@ -83,6 +84,16 @@ public class FlightCommandsAPI {
         flightcontroldata.setRoll(roll);
         flightcontroldata.setYaw(yaw);
         flightcontroldata.setVerticalThrottle(throttle);
+        flightController.setFlightOrientationMode(FlightOrientationMode.AIRCRAFT_HEADING, new CommonCallbacks.CompletionCallback() {
+            @Override
+            public void onResult(DJIError djiError) {
+                if(djiError != null){
+                    log.setDebug(djiError.toString());
+                }
+                else
+                    log.setDebug("Orientation Mode set to AIRCRAFT HEADING");
+            }
+        });
 
         if (flightController.isVirtualStickControlModeAvailable()) {
             flightController.setVerticalControlMode(VerticalControlMode.VELOCITY);
