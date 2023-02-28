@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button,
-            takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button;
+            takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button, down_button;
     //    private ToggleButton toggleVirtualStick;
     private TextView info, bat_status;
     private FlightCommandsAPI FPVcontrol;
@@ -160,6 +160,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         turn_right_button = findViewById(R.id.turn_right_button);
         land_button = findViewById(R.id.land_button);
         takeoff_button = findViewById(R.id.take_off_button);
+        up_button = findViewById(R.id.up_button);
+        down_button = findViewById(R.id.down_button);
         save_button = findViewById(R.id.save_button);
         stop_button = findViewById(R.id.stop_button);
     }
@@ -175,6 +177,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         stop_button.setOnClickListener(this);
         yaw_left_button.setOnClickListener(this);
         yaw_right_button.setOnClickListener(this);
+        up_button.setOnClickListener(this);
+        down_button.setOnClickListener(this);
     }
 
 
