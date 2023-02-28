@@ -69,13 +69,13 @@ public class FlightCommandsAPI {
     }
 
     public void stayOnPlace(){
-        setControlCommand(0, 0, 0, 0, 0);
+        setControlCommand(0, 0, 0, 0, 0, "Stay on place");
     }
     public void forward(float pitch){
-        setControlCommand(0, pitch, 0, 0, 0);
+        setControlCommand(0, pitch, 0, 0, 0, "Forward");
     }
 
-    public void setControlCommand(float yaw, float pitch, float roll, float throttle, float gimbal_pitch){
+    public void setControlCommand(float yaw, float pitch, float roll, float throttle, float gimbal_pitch, String command_name){
         /*
             This method receives flight params and sends a command to the drone
          */
@@ -90,10 +90,10 @@ public class FlightCommandsAPI {
                 @Override
                 public void onResult(DJIError djiError) {
                     if (djiError != null){
-                        log.setDebug(djiError.toString());
+                        log.setDebug(command_name + " " + djiError.toString());
                     }
                     else
-                        log.setDebug("Command sent successfully");
+                        log.setDebug("Command " + command_name + " sent successfully");
                 }
             });
         }
