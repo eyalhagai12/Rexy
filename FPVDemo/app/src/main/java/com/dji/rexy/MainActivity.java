@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
         // create log instance
         log = new LogCustom(getExternalFilesDir("LOG"));
-
+        // create Flight Controller instance wrapped with FPV-API
         FPVcontrol = new FlightCommandsAPI(log, bat_status);
         // set a new timer for updating the Log each 1 second
         TimerTask t = new TimerTask() {
@@ -74,7 +74,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
-
             @Override
             public void onReceive(byte[] videoBuffer, int size) {
                 if (mCodecManager != null) {
@@ -82,8 +81,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 }
             }
         };
-//        log.write("Video receiver initialized successfully");
-
     }
 
     protected void onProductChange() {
@@ -151,12 +148,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         if (null != mVideoSurface) {
             mVideoSurface.setSurfaceTextureListener(this);
         }
-
         info = findViewById(R.id.status);
         info.setText(new String("Floor"));
         bat_status = findViewById(R.id.Battery_status);
         bat_status.setText(new String("100"));
-//        toggleVirtualStick = button_layout.findViewById(R.id.toggle_vs_button);
         forward_button = findViewById(R.id.forward_button);
         backward_button = findViewById(R.id.backward_button);
         yaw_left_button = findViewById(R.id.yaw_left_button);
@@ -170,7 +165,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     }
 
     private void initListeners() {
-//        toggleVirtualStick.setOnClickListener(this);
         takeoff_button.setOnClickListener(this);
         land_button.setOnClickListener(this);
         forward_button.setOnClickListener(this);
@@ -181,18 +175,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         stop_button.setOnClickListener(this);
         yaw_left_button.setOnClickListener(this);
         yaw_right_button.setOnClickListener(this);
-
-
-//        toggleVirtualStick.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    enableVirtualStick();
-//                } else {
-//                    disableVirtualStick();
-//                }
-//            }
-//        });
     }
 
 
@@ -257,7 +239,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
     @Override
     public void onClick(View v) {
-
+        /*
+            Main UI method, an onClick listener for all UI buttons.
+            Updates the current state.
+            Send commands to the drone using the interface class FPVcontrol.
+         */
         switch (v.getId()) {
             case R.id.take_off_button:
                 if (state == states.Floor) {
@@ -348,6 +334,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 timer.cancel();
                 log.close();
                 showToast("Log Saved!");
+                break;
 
             default:
                 break;
