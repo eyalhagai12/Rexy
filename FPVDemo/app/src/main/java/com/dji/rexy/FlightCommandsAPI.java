@@ -84,7 +84,7 @@ public class FlightCommandsAPI {
         flightcontroldata.setRoll(roll);
         flightcontroldata.setYaw(yaw);
         flightcontroldata.setVerticalThrottle(throttle);
-
+        log.setDebug((Boolean.toString(flightController.isVirtualStickControlModeAvailable())));
         if (flightController.isVirtualStickControlModeAvailable()) {
             flightController.setVerticalControlMode(VerticalControlMode.VELOCITY);
             flightController.sendVirtualStickFlightControlData(flightcontroldata, new CommonCallbacks.CompletionCallback() {
@@ -110,7 +110,16 @@ public class FlightCommandsAPI {
     }
 
     private void enableVirtualStick() {
-        flightController.setVirtualStickAdvancedModeEnabled(true);
+        flightController.setVirtualStickModeEnabled(true, new CommonCallbacks.CompletionCallback() {
+            @Override
+            public void onResult(DJIError djiError) {
+                if (djiError != null){
+                    log.setDebug(djiError.toString());
+                }
+                else
+                    log.setDebug("Set Virtual Stick Mode to True");
+            }
+        });
     }
 
     private void disableVirtualStick() {
