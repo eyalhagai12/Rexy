@@ -98,7 +98,7 @@ public class FlightCommandsAPI {
     }
 
     public void set_yaw(float new_yaw, String command){
-        flightController.setYawControlMode(YawControlMode.ANGLE);
+        flightController.setYawControlMode(YawControlMode.ANGULAR_VELOCITY);
         roll = 0;
         pitch = 0;
         yaw = new_yaw;
