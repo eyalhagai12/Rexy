@@ -291,11 +291,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 break;
 
             case R.id.forward_button:
-                if (state == states.Hover){
+                if (state != states.Floor){
                     state = states.Forward;
                     info.setText(new String("Forward"));
                     log.setMode("Forward");
-                    FPVcontrol.forward((float) 1);
+                    FPVcontrol.forward((float) 0.1);
                 }
                 break;
 

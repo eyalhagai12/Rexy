@@ -2,6 +2,9 @@ package com.dji.rexy;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import dji.common.battery.BatteryState;
 import dji.common.error.DJIError;
 import dji.common.flightcontroller.FlightOrientationMode;
@@ -21,6 +24,8 @@ public class FlightCommandsAPI {
     private Aircraft aircraft;
     private TextView bat_status;
     private FlightControlData flightcontroldata;
+    private volatile float pitch, roll, yaw, throttle, gimbal_pitch;
+    private volatile String command_name;
     private static final String TAG = FlightCommandsAPI.class.getName();
 
     public FlightCommandsAPI(LogCustom main_log, TextView bat_stat){
@@ -34,6 +39,11 @@ public class FlightCommandsAPI {
         log.initListeners();
         log.setDebug("Flight Controller init successfully!");
 
+        roll = 0;
+        pitch = 0;
+        yaw = 0;
+        throttle = 0;
+        command_name = "Empty";
     }
 
     public void takeoff(){
@@ -43,6 +53,7 @@ public class FlightCommandsAPI {
                 log.setDebug("Takeoff successfully!");
             }
         });
+        this.setCommandTimerTask();
     }
 
     public void land(){
@@ -70,18 +81,42 @@ public class FlightCommandsAPI {
     }
 
     public void stayOnPlace(){
-        setControlCommand(0, 0, 0, 0, 0, "Stay on place");
+        roll = 0;
+        pitch = 0;
+        yaw = 0;
+        throttle = 0;
+        gimbal_pitch = 0;
+        command_name = "stay on place";
     }
-    public void forward(float pitch){
-        setControlCommand(0, pitch, 0, 0, 0, "Forward");
+    public void forward(float new_pitch){
+        roll = 0;
+        pitch = new_pitch;
+        yaw = 0;
+        throttle = 0;
+        gimbal_pitch = 0;
+        command_name = "Forward";
     }
 
-    public void setControlCommand(float yaw, float pitch, float roll, float throttle, float gimbal_pitch, String command_name){
+    private void setCommandTimerTask(){
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run(){
+                setControlCommand();
+            }
+        };
+        Timer timer = new Timer();
+        // 5 Hz rate
+        timer.schedule(task, 0, 100);
+        log.setDebug("Command Timer Task set successfully!");
+    }
+
+    public void setControlCommand(){
         /*
             This method receives flight params and sends a command to the drone
          */
-        flightcontroldata.setPitch(pitch);
-        flightcontroldata.setRoll(roll);
+        // Pitch & Roll are opposite, why?
+        flightcontroldata.setPitch(roll);
+        flightcontroldata.setRoll(pitch);
         flightcontroldata.setYaw(yaw);
         flightcontroldata.setVerticalThrottle(throttle);
         log.setDebug((Boolean.toString(flightController.isVirtualStickControlModeAvailable())));
