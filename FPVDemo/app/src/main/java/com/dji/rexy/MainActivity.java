@@ -292,7 +292,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     state = states.Yaw_L;
                     info.setText(new String("Yaw left"));
                     log.setMode("Yaw Left");
-                    FPVcontrol.set_yaw((float) -0.2, "Yaw Left");
+                    FPVcontrol.set_yaw((float) -45, "Yaw Left");
                 }
                 break;
 
@@ -301,7 +301,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     state = states.Yaw_R;
                     info.setText(new String("Yaw right"));
                     log.setMode("Yaw Right");
-                    FPVcontrol.set_yaw((float) 0.2, "Yaw Right");
+                    FPVcontrol.set_yaw((float) 45, "Yaw Right");
                 }
                 break;
 
