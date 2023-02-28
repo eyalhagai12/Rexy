@@ -68,6 +68,13 @@ public class FlightCommandsAPI {
         });
     }
 
+    public void stayOnPlace(){
+        setControlCommand(0, 0, 0, 0, 0);
+    }
+    public void forward(float pitch){
+        setControlCommand(0, pitch, 0, 0, 0);
+    }
+
     public void setControlCommand(float yaw, float pitch, float roll, float throttle, float gimbal_pitch){
         /*
             This method receives flight params and sends a command to the drone
@@ -128,8 +135,8 @@ public class FlightCommandsAPI {
                     flightController.setVerticalControlMode(VerticalControlMode.VELOCITY);
                     flightController.setRollPitchCoordinateSystem(FlightCoordinateSystem.BODY);
                 }
-
             }
+            this.enableVirtualStick();
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
