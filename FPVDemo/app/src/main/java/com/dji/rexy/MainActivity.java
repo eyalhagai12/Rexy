@@ -3,7 +3,6 @@ package com.dji.rexy;
 import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.TextureView;
@@ -13,23 +12,14 @@ import android.view.TextureView.SurfaceTextureListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 
 import com.dji.FPVDemo.R;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import dji.common.camera.SystemState;
 import dji.common.error.DJIError;
-import dji.common.flightcontroller.virtualstick.FlightCoordinateSystem;
-import dji.common.flightcontroller.virtualstick.RollPitchControlMode;
-import dji.common.flightcontroller.virtualstick.VerticalControlMode;
-import dji.common.flightcontroller.virtualstick.YawControlMode;
 import dji.common.product.Model;
 import dji.common.useraccount.UserAccountState;
 import dji.common.util.CommonCallbacks;
@@ -37,8 +27,6 @@ import dji.sdk.base.BaseProduct;
 import dji.sdk.camera.Camera;
 import dji.sdk.camera.VideoFeeder;
 import dji.sdk.codec.DJICodecManager;
-import dji.sdk.flightcontroller.FlightController;
-import dji.sdk.products.Aircraft;
 import dji.sdk.useraccount.UserAccountManager;
 
 public class MainActivity extends Activity implements SurfaceTextureListener, OnClickListener {
@@ -170,8 +158,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 //        toggleVirtualStick = button_layout.findViewById(R.id.toggle_vs_button);
         forward_button = findViewById(R.id.forward_button);
         backward_button = findViewById(R.id.backward_button);
-        turn_left_button = findViewById(R.id.spin_left_button);
-        turn_right_button = findViewById(R.id.spin_right_button);
+        turn_left_button = findViewById(R.id.yaw_left_button);
+        turn_right_button = findViewById(R.id.yaw_right_button);
         land_button = findViewById(R.id.land_button);
         takeoff_button = findViewById(R.id.take_off_button);
         save_button = findViewById(R.id.save_button);
