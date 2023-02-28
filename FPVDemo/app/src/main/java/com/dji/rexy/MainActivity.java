@@ -42,7 +42,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private TextView info, bat_status;
     private FlightCommandsAPI FPVcontrol;
     private Handler handler;
-    private enum states {Floor, Takeoff, Land, Forward, Backward, Yaw_R, Yaw_L,Right, Left, Emergency, Hover}
+    private enum states {Floor, Takeoff, Land, Forward, Backward, Yaw_R, Yaw_L,Right, Left,
+                        Up, Down, Emergency, Hover}
     private states state = states.Floor;
     private LogCustom log;
     private Timer timer;
@@ -324,6 +325,24 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                     info.setText(new String("Right"));
                     log.setMode("Right");
                     FPVcontrol.set_roll((float) 0.2, "Right");
+                }
+                break;
+
+            case R.id.up_button:
+                if (state != states.Floor){
+                    state = states.Up;
+                    info.setText(new String("Up"));
+                    log.setMode("Up");
+                    FPVcontrol.set_throttle((float) 0.1, "Up");
+                }
+                break;
+
+            case R.id.down_button:
+                if (state != states.Floor){
+                    state = states.Down;
+                    info.setText(new String("Down"));
+                    log.setMode("Down");
+                    FPVcontrol.set_throttle((float) -0.1, "Down");
                 }
                 break;
 

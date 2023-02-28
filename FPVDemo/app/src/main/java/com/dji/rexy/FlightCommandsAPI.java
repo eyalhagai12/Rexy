@@ -116,6 +116,15 @@ public class FlightCommandsAPI {
         command_name = command;
     }
 
+    public void set_throttle(float new_throttle, String command){
+        roll = 0;
+        pitch = 0;
+        yaw = 0;
+        throttle = new_throttle;
+        gimbal_pitch = 0;
+        command_name = command;
+    }
+
     private void setCommandTimerTask(){
         TimerTask task = new TimerTask() {
             @Override
