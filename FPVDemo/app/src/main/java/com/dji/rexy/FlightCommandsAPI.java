@@ -106,6 +106,14 @@ public class FlightCommandsAPI {
         command_name = command;
     }
 
+    public void set_roll(float new_roll, String command){
+        roll = new_roll;
+        pitch = 0;
+        yaw = 0;
+        throttle = 0;
+        gimbal_pitch = 0;
+        command_name = command;
+    }
 
     private void setCommandTimerTask(){
         TimerTask task = new TimerTask() {

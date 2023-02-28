@@ -312,10 +312,28 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
             case R.id.yaw_right_button:
                 if (state != states.Floor){
-                    state = states.Yaw_L;
+                    state = states.Yaw_R;
                     info.setText(new String("Yaw right"));
                     log.setMode("Yaw Right");
                     FPVcontrol.set_yaw((float) 0.2, "Yaw Right");
+                }
+                break;
+
+            case R.id.turn_left_button:
+                if (state != states.Floor){
+                    state = states.Left;
+                    info.setText(new String("Left"));
+                    log.setMode("Left");
+                    FPVcontrol.set_roll((float) -0.2, "Left");
+                }
+                break;
+
+            case R.id.turn_right_button:
+                if (state != states.Floor){
+                    state = states.Right;
+                    info.setText(new String("Right"));
+                    log.setMode("Right");
+                    FPVcontrol.set_roll((float) 0.2, "Right");
                 }
                 break;
 
