@@ -29,6 +29,8 @@ import dji.sdk.camera.VideoFeeder;
 import dji.sdk.codec.DJICodecManager;
 import dji.sdk.useraccount.UserAccountManager;
 
+import org.pytorch.LiteModuleLoader;
+
 public class MainActivity extends Activity implements SurfaceTextureListener, OnClickListener {
 
     private static final String TAG = MainActivity.class.getName();

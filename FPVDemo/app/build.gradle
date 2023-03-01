@@ -92,4 +92,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'com.opencsv:opencsv:5.3'
+    implementation 'org.pytorch:pytorch_android_lite:1.10.0'
+
 }
