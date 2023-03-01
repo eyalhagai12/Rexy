@@ -172,7 +172,7 @@
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/voice_button"
+        android:id="@+id/record_button"
         android:layout_width="82dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button_layout"
@@ -188,7 +188,7 @@
         android:layout_above="@+id/button_layout"
         android:layout_marginStart="1dp"
         android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/voice_button"
+        android:layout_toEndOf="@+id/record_button"
         android:text="command"
         tools:visibility="visible" />
 

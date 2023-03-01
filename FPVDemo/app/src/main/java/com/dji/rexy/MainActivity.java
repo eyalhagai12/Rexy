@@ -30,6 +30,7 @@ import dji.sdk.codec.DJICodecManager;
 import dji.sdk.useraccount.UserAccountManager;
 
 import org.pytorch.LiteModuleLoader;
+import org.pytorch.Module;
 
 public class MainActivity extends Activity implements SurfaceTextureListener, OnClickListener {
 
@@ -39,9 +40,9 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button,
-            takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button, down_button;
-    //    private ToggleButton toggleVirtualStick;
-    private TextView info, bat_status;
+            takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button,
+            down_button, record_button;
+    private TextView info, bat_status, voice_command_view;
     private FlightCommandsAPI FPVcontrol;
     private Handler handler;
     private enum states {Floor, Takeoff, Land, Forward, Backward, Yaw_R, Yaw_L,Right, Left,
@@ -49,6 +50,9 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private states state = states.Floor;
     private LogCustom log;
     private Timer timer;
+    // Speech2Text params
+    private Module module;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +171,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         down_button = findViewById(R.id.down_button);
         save_button = findViewById(R.id.save_button);
         stop_button = findViewById(R.id.stop_button);
+        record_button = findViewById(R.id.record_button);
+        voice_command_view = findViewById(R.id.command_text);
     }
 
     private void initListeners() {
@@ -182,6 +188,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         yaw_right_button.setOnClickListener(this);
         up_button.setOnClickListener(this);
         down_button.setOnClickListener(this);
+        record_button.setOnClickListener(this);
     }
 
 
