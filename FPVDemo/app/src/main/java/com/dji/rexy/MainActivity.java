@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
@@ -50,8 +51,28 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private states state = states.Floor;
     private LogCustom log;
     private Timer timer;
+
     // Speech2Text params
     private Module module;
+    private final static int REQUEST_RECORD_AUDIO = 13;
+    private final static int AUDIO_LEN_IN_SECOND = 6;
+    private final static int SAMPLE_RATE = 16000;
+    private final static int RECORDING_LENGTH = SAMPLE_RATE * AUDIO_LEN_IN_SECOND;
+    private int mStart = 1;
+    private HandlerThread mTimerThread;
+    private Handler mTimerHandler;
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mTimerHandler.postDelayed(mRunnable, 1000);
+
+            MainActivity.this.runOnUiThread(
+                    () -> {
+                        record_button.setText(String.format("Listening - %ds left", AUDIO_LEN_IN_SECOND - mStart));
+                        mStart += 1;
+                    });
+        }
+    };
 
 
     @Override
