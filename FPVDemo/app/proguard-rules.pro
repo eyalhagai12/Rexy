@@ -60,6 +60,10 @@
 
 -keep class it.sauronsoftware.ftp4j.**{*;}
 
+# Keep PyTorch native code
+-keep class org.pytorch.** { *; }
+
+
 -keepclasseswithmembers,allowshrinking class * {
     native <methods>;
 }

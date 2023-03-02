@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,11 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -30,11 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.dji.FPVDemo.R;
+//import com.dji.FPVDemo.R;
+import com.dji.rexy.R;
 
-
-import org.pytorch.LiteModuleLoader;
-import org.pytorch.Module;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
@@ -52,7 +44,7 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
     private TextView mTextConnectionStatus;
     private TextView mTextProduct;
     private TextView mVersionTv;
-    private Button mBtnOpen;
+    private Button mBtnOpen, speech;
     private static final String[] REQUIRED_PERMISSION_LIST = new String[]{
             Manifest.permission.VIBRATE,
             Manifest.permission.INTERNET,
@@ -82,6 +74,11 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
         IntentFilter filter = new IntentFilter();
         filter.addAction(FPVDemoApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
+
+        speech = findViewById(R.id.speech);
+        speech.setOnClickListener(this);
+
+
     }
 
     /**
@@ -278,6 +275,10 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
                 startActivity(intent);
                 break;
             }
+            case R.id.speech:
+                Intent i = new Intent(this, SpeechRecognition.class);
+                startActivity(i);
+                break;
             default:
                 break;
         }

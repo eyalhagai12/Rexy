@@ -2,7 +2,7 @@ package com.dji.rexy;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetManager;
+import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -21,7 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.dji.FPVDemo.R;
+//import com.dji.FPVDemo.R;
+import com.dji.rexy.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
