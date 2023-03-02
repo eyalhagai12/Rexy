@@ -2,6 +2,7 @@ package com.dji.rexy;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.SurfaceTexture;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -66,7 +67,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private Timer timer;
 
     // Speech2Text params
-    private Module module;
+    private Module module = null;
     private final static int REQUEST_RECORD_AUDIO = 13;
     private final static int AUDIO_LEN_IN_SECOND = 6;
     private final static int SAMPLE_RATE = 16000;
@@ -414,6 +415,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 mTimerThread.start();
                 mTimerHandler = new Handler(mTimerThread.getLooper());
                 mTimerHandler.postDelayed(mRunnable, 1000);
+                break;
 
             default:
                 break;
@@ -466,9 +468,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         voice_command_view.setText(result);
     }
 
-    private String recognize(float[] floatInputBuffer) {
+    private String recognize(float[] floatInputBuffer)  {
         if (module == null) {
             module = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "wav2vec2.ptl"));
+            showToast("Model loaded successfully");
         }
 
         double wav2vecinput[] = new double[RECORDING_LENGTH];
@@ -480,13 +483,15 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             inTensorBuffer.put((float)val);
 
         Tensor inTensor = Tensor.fromBlob(inTensorBuffer, new long[]{1, RECORDING_LENGTH});
+        showToast("created tensor");
         final String result = module.forward(IValue.from(inTensor)).toStr();
-
+        showToast("generated result");
         return result;
     }
 
     @Override
     public void run() {
+        log.setDebug("RUN speech");
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
 
         int bufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
@@ -497,8 +502,9 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             Log.e(TAG, "Audio Record can't initialize!");
             return;
         }
+        log.setDebug("passed first IF statement");
         record.startRecording();
-
+        log.setDebug("Started recording");
         long shortsRead = 0;
         int recordingOffset = 0;
         short[] audioBuffer = new short[bufferSize / 2];
@@ -510,10 +516,12 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             System.arraycopy(audioBuffer, 0, recordingBuffer, recordingOffset, numberOfShort);
             recordingOffset += numberOfShort;
         }
-
+        log.setDebug("Finished recording");
         record.stop();
         record.release();
+        log.setDebug("Stopped recording");
         stopTimerThread();
+        log.setDebug("Stopped Timer");
 
         runOnUiThread(new Runnable() {
             @Override
@@ -528,9 +536,9 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         for (int i = 0; i < RECORDING_LENGTH; ++i) {
             floatInputBuffer[i] = recordingBuffer[i] / (float)Short.MAX_VALUE;
         }
-
+        showToast("Start recognition");
         final String result = recognize(floatInputBuffer);
-
+        log.setDebug("Result is ready");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
