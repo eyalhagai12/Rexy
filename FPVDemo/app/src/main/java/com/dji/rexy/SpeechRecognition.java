@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.FloatBuffer;
+import java.util.List;
 
 public class SpeechRecognition {
 
@@ -69,6 +70,115 @@ public class SpeechRecognition {
         return result;
     }
 
+    public int parseCommand(String command){
+
+        String[] parts_of_command = command.split(" ");
+
+        // TakeOff section
+        if (parts_of_command[0].equalsIgnoreCase("takeoff")){
+            // Fully understood, user commands a Takeoff
+            return 0;
+        }
+        else if (parts_of_command[0].equalsIgnoreCase("take")){
+            if (parts_of_command[1].equalsIgnoreCase("off")){
+                // Partly understood, user commands a Takeoff
+                return 0;
+            }
+            else{
+                // The command isn't clear, will ask for a clarification from the user.
+                return -1;
+            }
+        }
+
+        // Land section
+        if (parts_of_command[0].equalsIgnoreCase("land")){
+            return 1;
+        }
+
+        // Forward section
+        if (parts_of_command[0].equalsIgnoreCase("forward")){
+            // Fully understood, the user commands moving Forward
+            return 2;
+        }
+        else if (parts_of_command[0].equalsIgnoreCase("for")){
+            if (parts_of_command[1].equalsIgnoreCase("ward")){
+                // Partly understood, the user commands moving Forward
+                return 2;
+            }
+            else{
+                // The command isn't clear, asking for clarifications.
+                return -1;
+            }
+        }
+
+        // Backward section
+        if (parts_of_command[0].equalsIgnoreCase("backward")){
+            // Fully understood, the user commands moving Backward
+            return 3;
+        }
+        else if (parts_of_command[0].equalsIgnoreCase("back")){
+            if (parts_of_command[1].equalsIgnoreCase("ward")){
+                // Partly understood, the user commands moving Backward
+                return 3;
+            }
+            else{
+                // The command isn't clear, asking for clarifications.
+                return -1;
+            }
+        }
+
+        // Left turn section
+        if (parts_of_command[0].equalsIgnoreCase("left")){
+            // Fully understood, the user commands a left turn
+            return 4;
+        }
+
+        // Right turn section
+        if (parts_of_command[0].equalsIgnoreCase("right")){
+            // Fully understood, the user commands a right turn
+            return 5;
+        }
+
+        // Yaw turn section
+        if (parts_of_command[0].equalsIgnoreCase("yaw")){
+            if (parts_of_command[1].equalsIgnoreCase("left")){
+                // Fully understood, the user commands a Yaw left turn
+                return 6;
+            }
+            else if (parts_of_command[1].equalsIgnoreCase("right")){
+                // Fully understood, the user commands a Yaw right turn
+                return 7;
+            }
+            else{
+                // command isn't clear, asking the user for clarifications
+                return -1;
+            }
+        }
+
+        // Up section
+        if (parts_of_command[0].equalsIgnoreCase("up")){
+            // Fully understood, the user commands a right turn
+            return 8;
+        }
+
+        // Down section
+        if (parts_of_command[0].equalsIgnoreCase("down")){
+            // Fully understood, the user commands a right turn
+            return 9;
+        }
+
+        // Stop section
+        if (parts_of_command[0].equalsIgnoreCase("stop")){
+            // Fully understood, the user commands a right turn
+            return 10;
+        }
+
+        // ask for clarification if the command isn't clear.
+        return -1;
+
+
+
+    }
 
 
 }
