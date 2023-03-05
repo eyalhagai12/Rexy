@@ -76,6 +76,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private int mStart = 1;
     private HandlerThread mTimerThread;
     private Handler mTimerHandler;
+    private SpeechRecognition speech_utils;
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -104,6 +105,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         log = new LogCustom(getExternalFilesDir("LOG"));
         // create Flight Controller instance wrapped with FPV-API
         FPVcontrol = new FlightCommandsAPI(log, bat_status);
+        speech_utils = new SpeechRecognition(getApplicationContext());
         // set a new timer for updating the Log each 1 second
         TimerTask t = new TimerTask() {
             @Override
@@ -443,51 +445,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         }
     }
 
-    private String assetFilePath(Context context, String assetName) {
-        File file = new File(context.getFilesDir(), assetName);
-        if (file.exists() && file.length() > 0) {
-            return file.getAbsolutePath();
-        }
-
-        try (InputStream is = context.getAssets().open(assetName)) {
-            try (OutputStream os = new FileOutputStream(file)) {
-                byte[] buffer = new byte[4 * 1024];
-                int read;
-                while ((read = is.read(buffer)) != -1) {
-                    os.write(buffer, 0, read);
-                }
-                os.flush();
-            }
-            return file.getAbsolutePath();
-        } catch (IOException e) {
-            Log.e(TAG, assetName + ": " + e.getLocalizedMessage());
-        }
-        return null;
-    }
-
     private void showTranslationResult(String result) {
         voice_command_view.setText(result);
-    }
-
-    private String recognize(float[] floatInputBuffer)  {
-        if (module == null) {
-            module = LiteModuleLoader.load(assetFilePath(getApplicationContext(), "wav2vec2.ptl"));
-            showToast("Model loaded successfully");
-        }
-
-        double wav2vecinput[] = new double[RECORDING_LENGTH];
-        for (int n = 0; n < RECORDING_LENGTH; n++)
-            wav2vecinput[n] = floatInputBuffer[n];
-
-        FloatBuffer inTensorBuffer = Tensor.allocateFloatBuffer(RECORDING_LENGTH);
-        for (double val : wav2vecinput)
-            inTensorBuffer.put((float)val);
-
-        Tensor inTensor = Tensor.fromBlob(inTensorBuffer, new long[]{1, RECORDING_LENGTH});
-        showToast("created tensor");
-        final String result = module.forward(IValue.from(inTensor)).toStr();
-        showToast("generated result");
-        return result;
     }
 
     @Override
@@ -538,14 +497,14 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             floatInputBuffer[i] = recordingBuffer[i] / (float)Short.MAX_VALUE;
         }
         showToast("Start recognition");
-        final String result = recognize(floatInputBuffer);
+        final String result = speech_utils.recognize(floatInputBuffer);
         log.setDebug("Result is ready");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 showTranslationResult(result);
                 record_button.setEnabled(true);
-                record_button.setText("Start");
+                record_button.setText("Record");
             }
         });
     }
