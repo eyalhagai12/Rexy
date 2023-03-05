@@ -74,11 +74,6 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
         IntentFilter filter = new IntentFilter();
         filter.addAction(FPVDemoApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
-
-        speech = findViewById(R.id.speech);
-        speech.setOnClickListener(this);
-
-
     }
 
     /**
@@ -275,10 +270,6 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
                 startActivity(intent);
                 break;
             }
-            case R.id.speech:
-                Intent i = new Intent(this, SpeechRecognition.class);
-                startActivity(i);
-                break;
             default:
                 break;
         }

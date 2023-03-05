@@ -549,21 +549,4 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             }
         });
     }
-
-
-    private boolean isMavicAir2() {
-        BaseProduct baseProduct = FPVDemoApplication.getProductInstance();
-        if (baseProduct != null) {
-            return baseProduct.getModel() == Model.MAVIC_AIR_2;
-        }
-        return false;
-    }
-
-    private boolean isM300() {
-        BaseProduct baseProduct = FPVDemoApplication.getProductInstance();
-        if (baseProduct != null) {
-            return baseProduct.getModel() == Model.MATRICE_300_RTK;
-        }
-        return false;
-    }
 }
