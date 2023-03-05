@@ -22,7 +22,7 @@ public class SpeechRecognition {
     private Context context;
     private Module module = null;
     private final static int REQUEST_RECORD_AUDIO = 13;
-    private final static int AUDIO_LEN_IN_SECOND = 6;
+    private final static int AUDIO_LEN_IN_SECOND = 4;
     private final static int SAMPLE_RATE = 16000;
     private final static int RECORDING_LENGTH = SAMPLE_RATE * AUDIO_LEN_IN_SECOND;
 

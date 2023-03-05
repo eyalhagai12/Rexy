@@ -70,7 +70,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     // Speech2Text params
     private Module module = null;
     private final static int REQUEST_RECORD_AUDIO = 13;
-    private final static int AUDIO_LEN_IN_SECOND = 6;
+    private final static int AUDIO_LEN_IN_SECOND = 4;
     private final static int SAMPLE_RATE = 16000;
     private final static int RECORDING_LENGTH = SAMPLE_RATE * AUDIO_LEN_IN_SECOND;
     private int mStart = 1;
@@ -446,7 +446,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     }
 
     private void showTranslationResult(String result) {
-        voice_command_view.setText(result);
+        int action = speech_utils.parseCommand(result);
+        voice_command_view.setText(new String(result + " - " + action));
     }
 
     @Override
@@ -462,7 +463,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             Log.e(TAG, "Audio Record can't initialize!");
             return;
         }
-        log.setDebug("passed first IF statement");
+
         record.startRecording();
         log.setDebug("Started recording");
         long shortsRead = 0;
@@ -476,12 +477,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             System.arraycopy(audioBuffer, 0, recordingBuffer, recordingOffset, numberOfShort);
             recordingOffset += numberOfShort;
         }
-        log.setDebug("Finished recording");
+
         record.stop();
         record.release();
-        log.setDebug("Stopped recording");
         stopTimerThread();
-        log.setDebug("Stopped Timer");
 
         runOnUiThread(new Runnable() {
             @Override
