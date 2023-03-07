@@ -301,123 +301,55 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
          */
         switch (v.getId()) {
             case R.id.take_off_button:
-                if (state == states.Floor) {
-                    state = states.Takeoff;
-                    info.setText(new String("Takeoff"));
-                    log.setMode("Takeoff");
-                    FPVcontrol.takeoff();
-                    state = states.Hover;
-                    info.setText(new String("Hover"));
-                    log.setMode("Hover");
-                }
+                this.takeoff();
                 break;
 
             case R.id.land_button:
-                if (state == states.Hover) {
-                    state = states.Land;
-                    info.setText(new String("Landing"));
-                    log.setMode("Land");
-                    FPVcontrol.land();
-                    state = states.Floor;
-                    info.setText(new String("Floor"));
-                    log.setMode("Floor");
-                }
+                this.land();
                 break;
 
             case R.id.forward_button:
-                if (state != states.Floor){
-                    state = states.Forward;
-                    info.setText(new String("Forward"));
-                    log.setMode("Forward");
-                    FPVcontrol.set_pitch((float) 0.5, "Forward");
-                }
+                this.forward();
                 break;
 
             case R.id.backward_button:
-                if (state != states.Floor){
-                    state = states.Backward;
-                    info.setText(new String("Backward"));
-                    log.setMode("Backward");
-                    FPVcontrol.set_pitch((float) -0.5, "Backward");
-                }
+                this.backward();
                 break;
 
             case R.id.yaw_left_button:
-                if (state != states.Floor){
-                    state = states.Yaw_L;
-                    info.setText(new String("Yaw left"));
-                    log.setMode("Yaw Left");
-                    FPVcontrol.set_yaw((float) -5, "Yaw Left");
-                }
+                this.yaw_left();
                 break;
 
             case R.id.yaw_right_button:
-                if (state != states.Floor){
-                    state = states.Yaw_R;
-                    info.setText(new String("Yaw right"));
-                    log.setMode("Yaw Right");
-                    FPVcontrol.set_yaw((float) 5, "Yaw Right");
-                }
+                this.yaw_right();
                 break;
 
             case R.id.turn_left_button:
-                if (state != states.Floor){
-                    state = states.Left;
-                    info.setText(new String("Left"));
-                    log.setMode("Left");
-                    FPVcontrol.set_roll((float) -0.2, "Left");
-                }
+                this.turn_left();
                 break;
 
             case R.id.turn_right_button:
-                if (state != states.Floor){
-                    state = states.Right;
-                    info.setText(new String("Right"));
-                    log.setMode("Right");
-                    FPVcontrol.set_roll((float) 0.2, "Right");
-                }
+                this.turn_right();
                 break;
 
             case R.id.up_button:
-                if (state != states.Floor){
-                    state = states.Up;
-                    info.setText(new String("Up"));
-                    log.setMode("Up");
-                    FPVcontrol.set_throttle((float) 0.1, "Up");
-                }
+                this.up();
                 break;
 
             case R.id.down_button:
-                if (state != states.Floor){
-                    state = states.Down;
-                    info.setText(new String("Down"));
-                    log.setMode("Down");
-                    FPVcontrol.set_throttle((float) -0.1, "Down");
-                }
+                this.down();
                 break;
 
             case R.id.stop_button:
-                state = states.Hover;
-                info.setText(new String("Hover"));
-                log.setMode("Hover");
-                FPVcontrol.stayOnPlace();
+                this.stop();
                 break;
 
             case R.id.save_button:
-                timer.cancel();
-                log.close();
-                showToast("Log Saved!");
+                this.save_log();
                 break;
 
             case R.id.record_button:
-                record_button.setText(String.format("Listening - %ds left", AUDIO_LEN_IN_SECOND));
-                record_button.setEnabled(false);
-                Thread thread = new Thread(MainActivity.this);
-                thread.start();
-                mTimerThread = new HandlerThread("Timer");
-                mTimerThread.start();
-                mTimerHandler = new Handler(mTimerThread.getLooper());
-                mTimerHandler.postDelayed(mRunnable, 1000);
+                this.record();
                 break;
 
             default:
@@ -507,4 +439,131 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             }
         });
     }
+
+    /*
+        Flight commands sections
+     */
+
+    private void takeoff(){
+        if (state == states.Floor) {
+            state = states.Takeoff;
+            info.setText(new String("Takeoff"));
+            log.setMode("Takeoff");
+            FPVcontrol.takeoff();
+            state = states.Hover;
+            info.setText(new String("Hover"));
+            log.setMode("Hover");
+        }
+    }
+
+    private void land(){
+        if (state == states.Hover) {
+            state = states.Land;
+            info.setText(new String("Landing"));
+            log.setMode("Land");
+            FPVcontrol.land();
+            state = states.Floor;
+            info.setText(new String("Floor"));
+            log.setMode("Floor");
+        }
+    }
+
+    private void forward(){
+        if (state != states.Floor){
+            state = states.Forward;
+            info.setText(new String("Forward"));
+            log.setMode("Forward");
+            FPVcontrol.set_pitch((float) 0.5, "Forward");
+        }
+    }
+
+    private void backward(){
+        if (state != states.Floor){
+            state = states.Backward;
+            info.setText(new String("Backward"));
+            log.setMode("Backward");
+            FPVcontrol.set_pitch((float) -0.5, "Backward");
+        }
+    }
+
+    private void turn_left(){
+        if (state != states.Floor){
+            state = states.Left;
+            info.setText(new String("Left"));
+            log.setMode("Left");
+            FPVcontrol.set_roll((float) -0.2, "Left");
+        }
+    }
+
+    private void turn_right(){
+        if (state != states.Floor){
+            state = states.Right;
+            info.setText(new String("Right"));
+            log.setMode("Right");
+            FPVcontrol.set_roll((float) 0.2, "Right");
+        }
+    }
+
+    private void yaw_left(){
+        if (state != states.Floor){
+            state = states.Yaw_L;
+            info.setText(new String("Yaw left"));
+            log.setMode("Yaw Left");
+            FPVcontrol.set_yaw((float) -5, "Yaw Left");
+        }
+    }
+
+    private void yaw_right(){
+        if (state != states.Floor){
+            state = states.Yaw_R;
+            info.setText(new String("Yaw right"));
+            log.setMode("Yaw Right");
+            FPVcontrol.set_yaw((float) 5, "Yaw Right");
+        }
+    }
+
+    private void up(){
+        if (state != states.Floor){
+            state = states.Up;
+            info.setText(new String("Up"));
+            log.setMode("Up");
+            FPVcontrol.set_throttle((float) 0.1, "Up");
+        }
+    }
+
+    private void down(){
+        if (state != states.Floor){
+            state = states.Down;
+            info.setText(new String("Down"));
+            log.setMode("Down");
+            FPVcontrol.set_throttle((float) -0.1, "Down");
+        }
+    }
+
+    private void stop(){
+        state = states.Hover;
+        info.setText(new String("Hover"));
+        log.setMode("Hover");
+        FPVcontrol.stayOnPlace();
+    }
+
+    private void save_log(){
+        timer.cancel();
+        log.close();
+        showToast("Log Saved!");
+    }
+
+    private void record(){
+        record_button.setText(String.format("Listening - %ds left", AUDIO_LEN_IN_SECOND));
+        record_button.setEnabled(false);
+        Thread thread = new Thread(MainActivity.this);
+        thread.start();
+        mTimerThread = new HandlerThread("Timer");
+        mTimerThread.start();
+        mTimerHandler = new Handler(mTimerThread.getLooper());
+        mTimerHandler.postDelayed(mRunnable, 1000);
+    }
+
+
+
 }
