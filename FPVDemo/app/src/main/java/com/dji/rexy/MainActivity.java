@@ -430,6 +430,15 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         showToast("Start recognition");
         final String result = speech_utils.recognize(floatInputBuffer);
         log.setDebug("Result is ready");
+
+        // perform the desired command
+        boolean command_executed = this.voice_command_execute(result);
+        if (command_executed){
+            showToast("Command executed successfully!");
+        }
+        else{
+            showToast("Command failed / Command not clear!");
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -440,10 +449,77 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         });
     }
 
+
+    private boolean voice_command_execute(String command){
+        /*
+            This method parse the voice command.
+            If the command key is -1, it will return false as the
+            command isn't clear.
+            Else, it will perform the desired command and will return
+            true if the command executed successfully.
+         */
+        // parse the predicted voice command.
+        int command_key = speech_utils.parseCommand(command);
+        // perform the command:
+        switch (command_key){
+            case -1:
+                // return false, the command isn't clear!
+                return false;
+            case 0:
+                // Takeoff
+                this.takeoff();
+                break;
+            case 1:
+                // Land
+                this.land();
+                break;
+            case 2:
+                // Forward
+                this.forward();
+                break;
+            case 3:
+                // Backward
+                this.backward();
+                break;
+            case 4:
+                // Turn left
+                this.turn_left();
+                break;
+            case 5:
+                // Turn right
+                this.turn_right();
+                break;
+            case 6:
+                // Yaw left
+                this.yaw_left();
+                break;
+            case 7:
+                // Yaw right
+                this.yaw_right();
+                break;
+            case 8:
+                // Up
+                this.up();
+                break;
+            case 9:
+                // Down
+                this.down();
+                break;
+            case 10:
+                // Stop
+                this.stop();
+                break;
+            default:
+                // Command not clear!
+                return false;
+        }
+        return true;
+    }
+
+
     /*
         Flight commands sections
      */
-
     private void takeoff(){
         if (state == states.Floor) {
             state = states.Takeoff;
