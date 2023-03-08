@@ -28,6 +28,10 @@ import androidx.core.content.ContextCompat;
 import com.dji.rexy.R;
 
 
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
 import dji.log.DJILog;

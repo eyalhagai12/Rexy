@@ -1,5 +1,6 @@
 package com.dji.rexy;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -28,6 +29,10 @@ import dji.sdk.camera.Camera;
 import dji.sdk.camera.VideoFeeder;
 import dji.sdk.codec.DJICodecManager;
 import dji.sdk.useraccount.UserAccountManager;
+
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.pytorch.Module;
 
 public class MainActivity extends Activity implements SurfaceTextureListener, OnClickListener, Runnable {
@@ -37,6 +42,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     // Codec for video live view
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
+
+    private int img_width, img_height;
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button,
             takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button,
             down_button, record_button;
@@ -72,12 +79,19 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         }
     };
 
+    static {
+        System.loadLibrary("opencv_java4");
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        img_width = 100;
+        img_height = 100;
 
         handler = new Handler();
         initUI();
@@ -104,7 +118,24 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             @Override
             public void onReceive(byte[] videoBuffer, int size) {
                 if (mCodecManager != null) {
+                    // TEST for Canny algorithm
+//                    Mat frame = new Mat(img_height, img_width, CvType.CV_8UC1);
+//                    showToast("Start!");
+//                    frame.put(0, 0, videoBuffer);
+//                    showToast("Created a MAT");
+//                    Mat gray_frame = new Mat();
+//                    Imgproc.cvtColor(frame, gray_frame, Imgproc.COLOR_YUV2GRAY_NV21);
+//                    showToast("Converted to GRAY");
+//                    Mat canny_mat = new Mat();
+//                    Imgproc.Canny(gray_frame, canny_mat, 50, 150);
+//                    showToast("Performed Canny");
+//                    byte[] canny_data = new byte[(int) (canny_mat.total() * canny_mat.channels())];
+//                    canny_mat.get(0, 0, canny_data);
+//                    showToast("Created an output byte array");
+//
                     mCodecManager.sendDataToDecoder(videoBuffer, size);
+//                    mCodecManager.sendDataToDecoder(canny_data, size);
+//                    showToast("decoded successfully!");
                 }
             }
         };
@@ -243,6 +274,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         Log.e(TAG, "onSurfaceTextureAvailable");
         if (mCodecManager == null) {
+            img_height = height;
+            img_width = width;
             mCodecManager = new DJICodecManager(this, surface, width, height);
         }
     }
