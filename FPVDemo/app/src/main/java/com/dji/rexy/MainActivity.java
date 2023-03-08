@@ -1,8 +1,5 @@
 package com.dji.rexy;
-
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -19,20 +16,9 @@ import android.view.TextureView.SurfaceTextureListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-//import com.dji.FPVDemo.R;
 import com.dji.rexy.R;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.FloatBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import dji.common.error.DJIError;
 import dji.common.product.Model;
 import dji.common.useraccount.UserAccountState;
@@ -42,11 +28,7 @@ import dji.sdk.camera.Camera;
 import dji.sdk.camera.VideoFeeder;
 import dji.sdk.codec.DJICodecManager;
 import dji.sdk.useraccount.UserAccountManager;
-
-import org.pytorch.IValue;
-import org.pytorch.LiteModuleLoader;
 import org.pytorch.Module;
-import org.pytorch.Tensor;
 
 public class MainActivity extends Activity implements SurfaceTextureListener, OnClickListener, Runnable {
 
