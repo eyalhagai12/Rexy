@@ -73,14 +73,15 @@ public class SpeechRecognition {
     public int parseCommand(String command){
 
         String[] parts_of_command = command.split(" ");
+        
 
         // TakeOff section
-        if (parts_of_command[0].equalsIgnoreCase("takeoff")){
+        if (list_contain(parts_of_command, "takeoff")){
             // Fully understood, user commands a Takeoff
             return 0;
         }
-        else if (parts_of_command[0].equalsIgnoreCase("take")){
-            if (parts_of_command[1].equalsIgnoreCase("off")){
+        else if (list_contain(parts_of_command, "take")){
+            if (list_contain(parts_of_command, "off")){
                 // Partly understood, user commands a Takeoff
                 return 0;
             }
@@ -91,25 +92,25 @@ public class SpeechRecognition {
         }
 
         // Land section
-        if (parts_of_command[0].equalsIgnoreCase("land")){
+        if (list_contain(parts_of_command,"land")){
             return 1;
         }
 
         // Forward section
-        if (parts_of_command[0].equalsIgnoreCase("forward")){
+        if (list_contain(parts_of_command,"go")){
             // Fully understood, the user commands moving Forward
             return 2;
         }
-        else if (parts_of_command[0].equalsIgnoreCase("for")){
-            if (parts_of_command[1].equalsIgnoreCase("ward")){
-                // Partly understood, the user commands moving Forward
-                return 2;
-            }
-            else{
-                // The command isn't clear, asking for clarifications.
-                return -1;
-            }
-        }
+//        else if (parts_of_command[0].equalsIgnoreCase("for")){
+//            if (parts_of_command[1].equalsIgnoreCase("ward")){
+//                // Partly understood, the user commands moving Forward
+//                return 2;
+//            }
+//            else{
+//                // The command isn't clear, asking for clarifications.
+//                return -1;
+//            }
+//        }
 
         // Backward section
         if (parts_of_command[0].equalsIgnoreCase("backward")){
@@ -121,31 +122,31 @@ public class SpeechRecognition {
                 // Partly understood, the user commands moving Backward
                 return 3;
             }
-            else{
-                // The command isn't clear, asking for clarifications.
-                return -1;
-            }
+        } else if (list_contain(parts_of_command, "back")) {
+            return 3;
         }
 
         // Left turn section
-        if (parts_of_command[0].equalsIgnoreCase("left")){
+        if (list_contain(parts_of_command, "left")){
             // Fully understood, the user commands a left turn
             return 4;
         }
 
         // Right turn section
-        if (parts_of_command[0].equalsIgnoreCase("right")){
+        if (list_contain(parts_of_command,"right")){
             // Fully understood, the user commands a right turn
+            return 5;
+        } else if (list_contain(parts_of_command, "light")) {
             return 5;
         }
 
         // Yaw turn section
-        if (parts_of_command[0].equalsIgnoreCase("yaw")){
-            if (parts_of_command[1].equalsIgnoreCase("left")){
+        if (list_contain(parts_of_command,"spin")){
+            if (list_contain(parts_of_command,"left")){
                 // Fully understood, the user commands a Yaw left turn
                 return 6;
             }
-            else if (parts_of_command[1].equalsIgnoreCase("right")){
+            else if (list_contain(parts_of_command,"right") || list_contain(parts_of_command, "light")){
                 // Fully understood, the user commands a Yaw right turn
                 return 7;
             }
@@ -156,7 +157,8 @@ public class SpeechRecognition {
         }
 
         // Up section
-        if (parts_of_command[0].equalsIgnoreCase("up")){
+        if (list_contain(parts_of_command,"up") || list_contain(parts_of_command, "increase")
+                || list_contain(parts_of_command, "icrease")){
             // Fully understood, the user commands a right turn
             return 8;
         }
@@ -178,6 +180,15 @@ public class SpeechRecognition {
 
 
 
+    }
+    
+    private boolean list_contain(String[] lst, String target){
+        for (String str : lst){
+            if (str.equalsIgnoreCase(target)){
+                return true;
+            }
+        }
+        return false;
     }
 
 
