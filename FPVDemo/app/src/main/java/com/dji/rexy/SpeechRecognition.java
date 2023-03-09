@@ -54,7 +54,7 @@ public class SpeechRecognition {
 
     public String recognize(float[] floatInputBuffer)  {
         if (module == null) {
-            module = LiteModuleLoader.load(assetFilePath(context, "wav2vec2.ptl"));
+            module = LiteModuleLoader.load(assetFilePath(context, "wav2vec2_large.ptl"));
         }
 
         double wav2vecinput[] = new double[RECORDING_LENGTH];
