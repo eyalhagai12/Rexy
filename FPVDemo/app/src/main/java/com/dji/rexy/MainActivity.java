@@ -43,14 +43,14 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
 
-    private int img_width, img_height;
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button,
             takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button,
             down_button, record_button;
     private TextView info, bat_status, voice_command_view;
     private FlightCommandsAPI FPVcontrol;
+    private FlightCommandUI UI_commands;
     private Handler handler;
-    private enum states {Floor, Takeoff, Land, Forward, Backward, Yaw_R, Yaw_L,Right, Left,
+    enum states {Floor, Takeoff, Land, Forward, Backward, Yaw_R, Yaw_L,Right, Left,
                         Up, Down, Emergency, Hover}
     private states state = states.Floor;
     private LogCustom log;
@@ -159,6 +159,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         log = new LogCustom(getExternalFilesDir("LOG"));
         // create Flight Controller instance wrapped with FPV-API
         FPVcontrol = new FlightCommandsAPI(log, bat_status);
+        // A UI class for flight commands.
+        UI_commands = new FlightCommandUI(this.log, this.info, this.FPVcontrol);
         speech_utils = new SpeechRecognition(getApplicationContext());
         // set a new timer for updating the Log each 1 second
         handler = new Handler();
@@ -253,8 +255,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         Log.e(TAG, "onSurfaceTextureAvailable");
         if (mCodecManager == null) {
-            img_height = height;
-            img_width = width;
             mCodecManager = new DJICodecManager(this, surface, width, height);
         }
     }
@@ -295,47 +295,47 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
          */
         switch (v.getId()) {
             case R.id.take_off_button:
-                this.takeoff();
+                UI_commands.takeoff();
                 break;
 
             case R.id.land_button:
-                this.land();
+                UI_commands.land();
                 break;
 
             case R.id.forward_button:
-                this.forward();
+                UI_commands.forward();
                 break;
 
             case R.id.backward_button:
-                this.backward();
+                UI_commands.backward();
                 break;
 
             case R.id.yaw_left_button:
-                this.yaw_left();
+                UI_commands.yaw_left();
                 break;
 
             case R.id.yaw_right_button:
-                this.yaw_right();
+                UI_commands.yaw_right();
                 break;
 
             case R.id.turn_left_button:
-                this.turn_left();
+                UI_commands.turn_left();
                 break;
 
             case R.id.turn_right_button:
-                this.turn_right();
+                UI_commands.turn_right();
                 break;
 
             case R.id.up_button:
-                this.up();
+                UI_commands.up();
                 break;
 
             case R.id.down_button:
-                this.down();
+                UI_commands.down();
                 break;
 
             case R.id.stop_button:
-                this.stop();
+                UI_commands.stop();
                 break;
 
             case R.id.save_button:
@@ -372,8 +372,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     }
 
     private void showTranslationResult(String result) {
-        int action = speech_utils.parseCommand(result);
-        voice_command_view.setText(new String(result + " - " + action));
+        voice_command_view.setText(new String(result));
     }
 
     @Override
@@ -461,47 +460,47 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 return false;
             case 0:
                 // Takeoff
-                this.takeoff();
+                UI_commands.takeoff();
                 break;
             case 1:
                 // Land
-                this.land();
+                UI_commands.land();
                 break;
             case 2:
                 // Forward
-                this.forward();
+                UI_commands.forward();
                 break;
             case 3:
                 // Backward
-                this.backward();
+                UI_commands.backward();
                 break;
             case 4:
                 // Turn left
-                this.turn_left();
+                UI_commands.turn_left();
                 break;
             case 5:
                 // Turn right
-                this.turn_right();
+                UI_commands.turn_right();
                 break;
             case 6:
                 // Yaw left
-                this.yaw_left();
+                UI_commands.yaw_left();
                 break;
             case 7:
                 // Yaw right
-                this.yaw_right();
+                UI_commands.yaw_right();
                 break;
             case 8:
                 // Up
-                this.up();
+                UI_commands.up();
                 break;
             case 9:
                 // Down
-                this.down();
+                UI_commands.down();
                 break;
             case 10:
                 // Stop
-                this.stop();
+                UI_commands.stop();
                 break;
             default:
                 // Command not clear!
@@ -510,112 +509,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         return true;
     }
 
-
-    /*
-        Flight commands sections
-     */
-    private void takeoff(){
-        if (state == states.Floor) {
-            state = states.Takeoff;
-            info.setText(new String("Takeoff"));
-            log.setMode("Takeoff");
-            FPVcontrol.takeoff();
-            state = states.Hover;
-            info.setText(new String("Hover"));
-            log.setMode("Hover");
-        }
-    }
-
-    private void land(){
-        if (state == states.Hover) {
-            state = states.Land;
-            info.setText(new String("Landing"));
-            log.setMode("Land");
-            FPVcontrol.land();
-            state = states.Floor;
-            info.setText(new String("Floor"));
-            log.setMode("Floor");
-        }
-    }
-
-    private void forward(){
-        if (state != states.Floor){
-            state = states.Forward;
-            info.setText(new String("Forward"));
-            log.setMode("Forward");
-            FPVcontrol.set_pitch((float) 0.5, "Forward");
-        }
-    }
-
-    private void backward(){
-        if (state != states.Floor){
-            state = states.Backward;
-            info.setText(new String("Backward"));
-            log.setMode("Backward");
-            FPVcontrol.set_pitch((float) -0.5, "Backward");
-        }
-    }
-
-    private void turn_left(){
-        if (state != states.Floor){
-            state = states.Left;
-            info.setText(new String("Left"));
-            log.setMode("Left");
-            FPVcontrol.set_roll((float) -0.2, "Left");
-        }
-    }
-
-    private void turn_right(){
-        if (state != states.Floor){
-            state = states.Right;
-            info.setText(new String("Right"));
-            log.setMode("Right");
-            FPVcontrol.set_roll((float) 0.2, "Right");
-        }
-    }
-
-    private void yaw_left(){
-        if (state != states.Floor){
-            state = states.Yaw_L;
-            info.setText(new String("Yaw left"));
-            log.setMode("Yaw Left");
-            FPVcontrol.set_yaw((float) -5, "Yaw Left");
-        }
-    }
-
-    private void yaw_right(){
-        if (state != states.Floor){
-            state = states.Yaw_R;
-            info.setText(new String("Yaw right"));
-            log.setMode("Yaw Right");
-            FPVcontrol.set_yaw((float) 5, "Yaw Right");
-        }
-    }
-
-    private void up(){
-        if (state != states.Floor){
-            state = states.Up;
-            info.setText(new String("Up"));
-            log.setMode("Up");
-            FPVcontrol.set_throttle((float) 0.1, "Up");
-        }
-    }
-
-    private void down(){
-        if (state != states.Floor){
-            state = states.Down;
-            info.setText(new String("Down"));
-            log.setMode("Down");
-            FPVcontrol.set_throttle((float) -0.1, "Down");
-        }
-    }
-
-    private void stop(){
-        state = states.Hover;
-        info.setText(new String("Hover"));
-        log.setMode("Hover");
-        FPVcontrol.stayOnPlace();
-    }
 
     private void save_log(){
         timer.cancel();
