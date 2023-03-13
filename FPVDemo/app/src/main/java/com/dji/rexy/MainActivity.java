@@ -86,60 +86,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        img_width = 100;
-        img_height = 100;
-
-        handler = new Handler();
         initUI();
         initListeners();
-
-        // create log instance
-        log = new LogCustom(getExternalFilesDir("LOG"));
-        // create Flight Controller instance wrapped with FPV-API
-        FPVcontrol = new FlightCommandsAPI(log, bat_status);
-        speech_utils = new SpeechRecognition(getApplicationContext());
-        // set a new timer for updating the Log each 1 second
-        TimerTask t = new TimerTask() {
-            @Override
-            public void run() {
-                log.write();
-            }
-        };
-        timer = new Timer();
-        timer.schedule(t, 0, 100);
-
-
-        // The callback for receiving the raw H264 video data for camera live view
-        mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
-            @Override
-            public void onReceive(byte[] videoBuffer, int size) {
-                if (mCodecManager != null) {
-                    // TEST for Canny algorithm
-//                    Mat frame = new Mat(img_height, img_width, CvType.CV_8UC1);
-//                    showToast("Start!");
-//                    frame.put(0, 0, videoBuffer);
-//                    showToast("Created a MAT");
-//                    Mat gray_frame = new Mat();
-//                    Imgproc.cvtColor(frame, gray_frame, Imgproc.COLOR_YUV2GRAY_NV21);
-//                    showToast("Converted to GRAY");
-//                    Mat canny_mat = new Mat();
-//                    Imgproc.Canny(gray_frame, canny_mat, 50, 150);
-//                    showToast("Performed Canny");
-//                    byte[] canny_data = new byte[(int) (canny_mat.total() * canny_mat.channels())];
-//                    canny_mat.get(0, 0, canny_data);
-//                    showToast("Created an output byte array");
-//
-                    mCodecManager.sendDataToDecoder(videoBuffer, size);
-//                    mCodecManager.sendDataToDecoder(canny_data, size);
-//                    showToast("decoded successfully!");
-                }
-            }
-        };
-
+        initParams();
         requestMicrophonePermission();
     }
 
@@ -203,6 +154,24 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         super.onDestroy();
     }
 
+    private void initParams(){
+        // create log instance
+        log = new LogCustom(getExternalFilesDir("LOG"));
+        // create Flight Controller instance wrapped with FPV-API
+        FPVcontrol = new FlightCommandsAPI(log, bat_status);
+        speech_utils = new SpeechRecognition(getApplicationContext());
+        // set a new timer for updating the Log each 1 second
+        handler = new Handler();
+        TimerTask t = new TimerTask() {
+            @Override
+            public void run() {
+                log.write();
+            }
+        };
+        timer = new Timer();
+        timer.schedule(t, 0, 100);
+    }
+
     private void initUI() {
         // init mVideoSurface
         mVideoSurface = findViewById(R.id.video_previewer_surface);
@@ -243,6 +212,16 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         up_button.setOnClickListener(this);
         down_button.setOnClickListener(this);
         record_button.setOnClickListener(this);
+
+        // The callback for receiving the raw H264 video data for camera live view
+        mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
+            @Override
+            public void onReceive(byte[] videoBuffer, int size) {
+                if (mCodecManager != null) {
+                    mCodecManager.sendDataToDecoder(videoBuffer, size);
+                }
+            }
+        };
     }
 
 
