@@ -377,34 +377,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
     @Override
     public void run() {
+
         log.setDebug("RUN speech");
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
-
-        int bufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-        AudioRecord record = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT,
-                bufferSize);
-
-        if (record.getState() != AudioRecord.STATE_INITIALIZED) {
-            Log.e(TAG, "Audio Record can't initialize!");
-            return;
-        }
-
-        record.startRecording();
-        log.setDebug("Started recording");
-        long shortsRead = 0;
-        int recordingOffset = 0;
-        short[] audioBuffer = new short[bufferSize / 2];
-        short[] recordingBuffer = new short[RECORDING_LENGTH];
-
-        while (shortsRead < RECORDING_LENGTH) {
-            int numberOfShort = record.read(audioBuffer, 0, audioBuffer.length);
-            shortsRead += numberOfShort;
-            System.arraycopy(audioBuffer, 0, recordingBuffer, recordingOffset, numberOfShort);
-            recordingOffset += numberOfShort;
-        }
-
-        record.stop();
-        record.release();
+        float[] floatInputBuffer = speech_utils.recordAudio();
         stopTimerThread();
 
         runOnUiThread(new Runnable() {
@@ -414,12 +390,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
             }
         });
 
-        float[] floatInputBuffer = new float[RECORDING_LENGTH];
-
-        // feed in float values between -1.0f and 1.0f by dividing the signed 16-bit inputs.
-        for (int i = 0; i < RECORDING_LENGTH; ++i) {
-            floatInputBuffer[i] = recordingBuffer[i] / (float)Short.MAX_VALUE;
-        }
         showToast("Start recognition");
         final String result = speech_utils.recognize(floatInputBuffer);
         log.setDebug("Result is ready");

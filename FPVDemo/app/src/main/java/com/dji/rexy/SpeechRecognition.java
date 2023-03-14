@@ -1,6 +1,10 @@
 package com.dji.rexy;
 
 import android.content.Context;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
+import android.util.Log;
 
 
 public class SpeechRecognition {
@@ -16,6 +20,41 @@ public class SpeechRecognition {
 
     public String recognize(float[] floatInputBuffer)  {
         return this.model.transcribe(floatInputBuffer);
+    }
+
+    public float[] recordAudio(){
+        int bufferSize = AudioRecord.getMinBufferSize(this.model.SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        AudioRecord record = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, this.model.SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT,
+                bufferSize);
+
+        if (record.getState() != AudioRecord.STATE_INITIALIZED) {
+            return null;
+        }
+
+        record.startRecording();
+        log.setDebug("Started recording");
+        long shortsRead = 0;
+        int recordingOffset = 0;
+        short[] audioBuffer = new short[bufferSize / 2];
+        short[] recordingBuffer = new short[this.model.RECORDING_LENGTH];
+
+        while (shortsRead < this.model.RECORDING_LENGTH) {
+            int numberOfShort = record.read(audioBuffer, 0, audioBuffer.length);
+            shortsRead += numberOfShort;
+            System.arraycopy(audioBuffer, 0, recordingBuffer, recordingOffset, numberOfShort);
+            recordingOffset += numberOfShort;
+        }
+
+        record.stop();
+        record.release();
+
+        float[] floatInputBuffer = new float[this.model.RECORDING_LENGTH];
+
+        // feed in float values between -1.0f and 1.0f by dividing the signed 16-bit inputs.
+        for (int i = 0; i < this.model.RECORDING_LENGTH; ++i) {
+            floatInputBuffer[i] = recordingBuffer[i] / (float)Short.MAX_VALUE;
+        }
+        return floatInputBuffer;
     }
 
     public int parseCommand(String command){
