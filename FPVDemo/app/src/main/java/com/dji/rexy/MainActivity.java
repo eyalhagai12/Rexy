@@ -50,9 +50,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private FlightCommandsAPI FPVcontrol;
     private FlightCommandUI UI_commands;
     private Handler handler;
-    enum states {Floor, Takeoff, Land, Forward, Backward, Yaw_R, Yaw_L,Right, Left,
-                        Up, Down, Emergency, Hover}
-    private states state = states.Floor;
     private LogCustom log;
     private Timer timer;
 
