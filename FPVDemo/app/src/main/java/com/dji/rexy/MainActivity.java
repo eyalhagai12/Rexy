@@ -502,6 +502,12 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 // Stop
                 UI_commands.stop();
                 break;
+            case 11:
+                UI_commands.speedUp();
+                break;
+            case 12:
+                UI_commands.slowDown();
+                break;
             default:
                 // Command not clear!
                 return false;
