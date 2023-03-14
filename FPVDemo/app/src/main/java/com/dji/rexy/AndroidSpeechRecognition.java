@@ -136,7 +136,7 @@ public class AndroidSpeechRecognition {
         }
 
         // Forward section
-        if (list_contain(parts_of_command,"go")){
+        if (list_contain(parts_of_command,"go") || list_contain(parts_of_command, "forward")){
             // Fully understood, the user commands moving Forward
             return 2;
         }
