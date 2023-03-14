@@ -165,6 +165,16 @@ public class SpeechRecognition {
             return 10;
         }
 
+        // speed section
+        if (parts_of_command[0].equalsIgnoreCase("speed") || parts_of_command[0].equalsIgnoreCase("spid")){
+            return 11;
+        }
+
+        // slow section
+        if (parts_of_command[0].equalsIgnoreCase("slow") || parts_of_command[0].equalsIgnoreCase("snow")){
+            return 12;
+        }
+
         // ask for clarification if the command isn't clear.
         return -1;
 
