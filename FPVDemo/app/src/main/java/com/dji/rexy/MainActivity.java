@@ -159,7 +159,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         FPVcontrol = new FlightCommandsAPI(log, bat_status);
         // A UI class for flight commands.
         UI_commands = new FlightCommandUI(this.log, this.info, this.FPVcontrol);
-        speech_utils = new SpeechRecognition(getApplicationContext());
+        speech_utils = new SpeechRecognition(getApplicationContext(), this.log);
         // set a new timer for updating the Log each 1 second
         handler = new Handler();
         TimerTask t = new TimerTask() {

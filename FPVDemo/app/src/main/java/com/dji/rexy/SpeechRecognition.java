@@ -7,10 +7,11 @@ public class SpeechRecognition {
 
     private Context context;
     private SpeechModel model;
-
-    public SpeechRecognition(Context new_context){
+    private LogCustom log;
+    public SpeechRecognition(Context new_context, LogCustom init_log){
         this.context = new_context;
-        this.model = new Wav2Vec2("wav2vec2_large.ptl", this.context);
+        this.log = init_log;
+        this.model = new Wav2Vec2("wav2vec2_large.ptl", this.context, this.log);
     }
 
     public String recognize(float[] floatInputBuffer)  {

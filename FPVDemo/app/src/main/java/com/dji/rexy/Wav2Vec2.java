@@ -12,9 +12,15 @@ import java.nio.FloatBuffer;
 public class Wav2Vec2 implements SpeechModel{
 
     private Module model = null;
-
-    public Wav2Vec2(String model_path, Context appContext){
-        this.model  = LiteModuleLoader.load(assetFilePath(appContext, model_path));
+    private LogCustom log;
+    public Wav2Vec2(String model_path, Context appContext, LogCustom init_log){
+        this.log = init_log;
+        try {
+            this.model = LiteModuleLoader.load(assetFilePath(appContext, model_path));
+        }
+        catch(Exception e){
+            this.log.setDebug(e.getMessage());
+        }
     }
 
     @Override
