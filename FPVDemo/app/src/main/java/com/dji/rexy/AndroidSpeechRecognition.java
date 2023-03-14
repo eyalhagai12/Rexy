@@ -29,6 +29,7 @@ public class AndroidSpeechRecognition {
     private T2S speaker;
     private Activity mainActivity;
     private boolean isRecording;
+    private String language;
     final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
     public AndroidSpeechRecognition(TextView init_result, Context init_context, Button init_button, FlightCommandUI init_ui_commands, T2S init_speaker, Activity init_activity){
         this.context = init_context;
@@ -39,8 +40,9 @@ public class AndroidSpeechRecognition {
         this.speaker = init_speaker;
         this.mainActivity = init_activity;
         this.isRecording = false;
+        this.language = "he-IL";
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, this.language);
         init_listeners();
     }
 
@@ -81,7 +83,11 @@ public class AndroidSpeechRecognition {
                 micButton.setText(new String("Record"));
                 ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 result.setText(data.get(0));
-                int commandKey = parseCommand(data.get(0));
+                int commandKey = -1;
+                if (language.equalsIgnoreCase("en-US"))
+                    commandKey = parseCommandEnglish(data.get(0));
+                else
+                    commandKey = parseCommandHebrew(data.get(0));
                 voice_command_execute(commandKey);
             }
 
@@ -97,19 +103,99 @@ public class AndroidSpeechRecognition {
         });
     }
 
+    private int parseCommandHebrew(String command) {
+        String[] parts_of_command = command.split(" ");
+
+        // TakeOff section
+        if (list_contain(parts_of_command, "המראה") || list_contain(parts_of_command, "תמריא")){
+            // Fully understood, user commands a Takeoff
+            return 0;
+        }
+
+        // Land section
+        if (list_contain(parts_of_command, "נחיתה") || list_contain(parts_of_command, "תנחת")){
+            // Fully understood, user commands a Land
+            return 1;
+        }
+
+        // Forward section
+        if (list_contain(parts_of_command,"קדימה") || list_contain(parts_of_command, "ישר")){
+            // Fully understood, the user commands moving Forward
+            return 2;
+        }
+
+        // Backward section
+        if (parts_of_command[0].equalsIgnoreCase("אחורה")){
+            // Fully understood, the user commands moving Backward
+            return 3;
+        }
+
+        // Left turn section
+        if (list_contain(parts_of_command, "שמאלה") || list_contain(parts_of_command, "שמאל")){
+            // Fully understood, the user commands a left turn
+            return 4;
+        }
+
+        // Right turn section
+        if (list_contain(parts_of_command,"ימינה") || list_contain(parts_of_command,"ימין")){
+            // Fully understood, the user commands a right turn
+            return 5;
+        }
+
+        // Yaw turn section
+        if (list_contain(parts_of_command,"תסתובב") || list_contain(parts_of_command,"סתובב") || list_contain(parts_of_command,"סיבוב")){
+            if (list_contain(parts_of_command,"שמאלה")){
+                // Fully understood, the user commands a Yaw left turn
+                return 6;
+            }
+            else if (list_contain(parts_of_command,"ימינה")){
+                // Fully understood, the user commands a Yaw right turn
+                return 7;
+            }
+            else{
+                // command isn't clear, asking the user for clarifications
+                return -1;
+            }
+        }
+
+        // Up section
+        if (list_contain(parts_of_command,"למעלה") || list_contain(parts_of_command, "תעלה")){
+            // Fully understood, the user commands a right turn
+            return 8;
+        }
+
+        // Down section
+        if (list_contain(parts_of_command,"למטה") || list_contain(parts_of_command,"תרד")){
+            // Fully understood, the user commands a right turn
+            return 9;
+        }
+
+        // Stop section
+        if (list_contain(parts_of_command,"תעצור") || list_contain(parts_of_command,"עצור")){
+            // Fully understood, the user commands a right turn
+            return 10;
+        }
+
+        // speed section
+        if (list_contain(parts_of_command,"תמהר") || list_contain(parts_of_command,"מהר")){
+            return 11;
+        }
+
+        // slow section
+        if (list_contain(parts_of_command,"תאט") || list_contain(parts_of_command,"לאט")){
+            return 12;
+        }
+
+        return -1;
+
+
+    }
+
     public void recognition(){
-//        if (!isRecording){
-//            speechRecognizer.startListening(speechRecognizerIntent);
-//            isRecording = true;
-//        }
-//        else{
-//            speechRecognizer.stopListening();
-//            isRecording = false;
-//        }
         speechRecognizer.startListening(speechRecognizerIntent);
     }
 
-    public int parseCommand(String command){
+    public int parseCommandEnglish(String command){
 
         String[] parts_of_command = command.split(" ");
 
@@ -193,24 +279,24 @@ public class AndroidSpeechRecognition {
         }
 
         // Down section
-        if (parts_of_command[0].equalsIgnoreCase("down")){
+        if (list_contain(parts_of_command,"down")){
             // Fully understood, the user commands a right turn
             return 9;
         }
 
         // Stop section
-        if (parts_of_command[0].equalsIgnoreCase("stop")){
+        if (list_contain(parts_of_command,"stop")){
             // Fully understood, the user commands a right turn
             return 10;
         }
 
         // speed section
-        if (parts_of_command[0].equalsIgnoreCase("speed") || parts_of_command[0].equalsIgnoreCase("spid")){
+        if (list_contain(parts_of_command,"speed") || list_contain(parts_of_command,"spid")){
             return 11;
         }
 
         // slow section
-        if (parts_of_command[0].equalsIgnoreCase("slow") || parts_of_command[0].equalsIgnoreCase("snow")){
+        if (list_contain(parts_of_command,"slow") || list_contain(parts_of_command,"snow")){
             return 12;
         }
 
@@ -240,7 +326,7 @@ public class AndroidSpeechRecognition {
         this.mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                speaker.keyToSpeech(command_key);
+                speaker.keyToSpeechHebrew(command_key);
             }
         });
         // perform the command:

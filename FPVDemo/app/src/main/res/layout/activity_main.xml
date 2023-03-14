@@ -192,6 +192,16 @@
         android:text="command"
         tools:visibility="visible" />
 
+    <Button
+        android:id="@+id/lang_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_layout"
+        android:layout_marginStart="196dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/command_text"
+        android:text="HE" />
+
     <!--    <LinearLayout-->
 <!--        android:id="@+id/info_layout"-->
 <!--        android:layout_width="wrap_content"-->

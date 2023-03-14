@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
     private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button,
             takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button,
-            down_button, record_button;
+            down_button, record_button, lang_button;
     private TextView info, bat_status, voice_command_view;
     private FlightCommandsAPI FPVcontrol;
     private FlightCommandUI UI_commands;
@@ -206,6 +206,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         stop_button = findViewById(R.id.stop_button);
         record_button = findViewById(R.id.record_button);
         voice_command_view = findViewById(R.id.command_text);
+        lang_button = findViewById(R.id.lang_button);
     }
 
     private void initListeners() {
@@ -222,6 +223,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         up_button.setOnClickListener(this);
         down_button.setOnClickListener(this);
         record_button.setOnClickListener(this);
+        lang_button.setOnClickListener(this);
 
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
@@ -366,6 +368,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 this.speechRec.recognition();
                 break;
 
+            case R.id.lang_button:
+                break;
             default:
                 break;
         }
