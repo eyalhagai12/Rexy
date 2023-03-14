@@ -51,6 +51,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private FlightCommandUI UI_commands;
     private Handler handler;
     private LogCustom log;
+    private TextToSpeechAPI speaker;
     private Timer timer;
 
     // Speech2Text params
@@ -169,6 +170,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         };
         timer = new Timer();
         timer.schedule(t, 0, 100);
+        // init Text 2 Speech engine
+        speaker = new TextToSpeechAPI(getApplicationContext());
     }
 
     private void initUI() {
@@ -450,6 +453,12 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
          */
         // parse the predicted voice command.
         int command_key = speech_utils.parseCommand(command);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                speaker.keyToSpeech(command_key);
+            }
+        });
         // perform the command:
         switch (command_key){
             case -1:

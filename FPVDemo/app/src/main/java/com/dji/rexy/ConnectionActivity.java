@@ -48,7 +48,7 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
     private TextView mTextConnectionStatus;
     private TextView mTextProduct;
     private TextView mVersionTv;
-    private Button mBtnOpen, speech;
+    private Button mBtnOpen;
     private static final String[] REQUIRED_PERMISSION_LIST = new String[]{
             Manifest.permission.VIBRATE,
             Manifest.permission.INTERNET,
