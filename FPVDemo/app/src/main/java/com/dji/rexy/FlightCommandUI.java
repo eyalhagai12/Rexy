@@ -11,11 +11,16 @@ public class FlightCommandUI {
     private LogCustom log;
     private TextView info;
     private FlightCommandsAPI FPVcontrol;
+    private float pitch, roll, yaw, throttle;
 
     public FlightCommandUI(LogCustom init_log, TextView init_info, FlightCommandsAPI init_fpv){
         this.log = init_log;
         this.FPVcontrol = init_fpv;
         this.info = init_info;
+        this.pitch = (float)0.5;
+        this.roll = (float)0.2;
+        this.yaw = (float)5;
+        this.throttle = (float)0.1;
     }
 
     public void takeoff(){
@@ -47,7 +52,7 @@ public class FlightCommandUI {
             state = states.Forward;
             info.setText(new String("Forward"));
             log.setMode("Forward");
-            FPVcontrol.set_pitch((float) 0.5, "Forward");
+            FPVcontrol.set_pitch(this.pitch, "Forward");
         }
     }
 
@@ -56,7 +61,7 @@ public class FlightCommandUI {
             state = states.Backward;
             info.setText(new String("Backward"));
             log.setMode("Backward");
-            FPVcontrol.set_pitch((float) -0.5, "Backward");
+            FPVcontrol.set_pitch(-this.pitch, "Backward");
         }
     }
 
@@ -65,7 +70,7 @@ public class FlightCommandUI {
             state = states.Left;
             info.setText(new String("Left"));
             log.setMode("Left");
-            FPVcontrol.set_roll((float) -0.2, "Left");
+            FPVcontrol.set_roll(-this.roll, "Left");
         }
     }
 
@@ -74,7 +79,7 @@ public class FlightCommandUI {
             state = states.Right;
             info.setText(new String("Right"));
             log.setMode("Right");
-            FPVcontrol.set_roll((float) 0.2, "Right");
+            FPVcontrol.set_roll(this.roll, "Right");
         }
     }
 
@@ -83,7 +88,7 @@ public class FlightCommandUI {
             state = states.Yaw_L;
             info.setText(new String("Yaw left"));
             log.setMode("Yaw Left");
-            FPVcontrol.set_yaw((float) -5, "Yaw Left");
+            FPVcontrol.set_yaw(-this.yaw, "Yaw Left");
         }
     }
 
@@ -92,7 +97,7 @@ public class FlightCommandUI {
             state = states.Yaw_R;
             info.setText(new String("Yaw right"));
             log.setMode("Yaw Right");
-            FPVcontrol.set_yaw((float) 5, "Yaw Right");
+            FPVcontrol.set_yaw(this.yaw, "Yaw Right");
         }
     }
 
@@ -101,7 +106,7 @@ public class FlightCommandUI {
             state = states.Up;
             info.setText(new String("Up"));
             log.setMode("Up");
-            FPVcontrol.set_throttle((float) 0.1, "Up");
+            FPVcontrol.set_throttle(this.throttle, "Up");
         }
     }
 
@@ -110,7 +115,7 @@ public class FlightCommandUI {
             state = states.Down;
             info.setText(new String("Down"));
             log.setMode("Down");
-            FPVcontrol.set_throttle((float) -0.1, "Down");
+            FPVcontrol.set_throttle(-this.throttle, "Down");
         }
     }
 
@@ -119,5 +124,35 @@ public class FlightCommandUI {
         info.setText(new String("Hover"));
         log.setMode("Hover");
         FPVcontrol.stayOnPlace();
+    }
+
+    public void speedUp(){
+        if (this.pitch < 1.0){
+            this.pitch += 0.1;
+        }
+        if (this.roll < 0.5){
+            this.roll += 0.1;
+        }
+        if (this.yaw < 25){
+            this.yaw += 5;
+        }
+        if (this.throttle < 0.5){
+            this.throttle += 0.1;
+        }
+    }
+
+    public void slowDown(){
+        if (this.pitch > 0.3){
+            this.pitch -= 0.1;
+        }
+        if (this.roll > 0.2){
+            this.roll -= 0.1;
+        }
+        if (this.yaw > 5){
+            this.yaw -= 5;
+        }
+        if (this.throttle > 0.1){
+            this.throttle -= 0.1;
+        }
     }
 }

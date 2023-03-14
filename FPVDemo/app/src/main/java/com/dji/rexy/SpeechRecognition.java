@@ -101,16 +101,6 @@ public class SpeechRecognition {
             // Fully understood, the user commands moving Forward
             return 2;
         }
-//        else if (parts_of_command[0].equalsIgnoreCase("for")){
-//            if (parts_of_command[1].equalsIgnoreCase("ward")){
-//                // Partly understood, the user commands moving Forward
-//                return 2;
-//            }
-//            else{
-//                // The command isn't clear, asking for clarifications.
-//                return -1;
-//            }
-//        }
 
         // Backward section
         if (parts_of_command[0].equalsIgnoreCase("backward")){
@@ -177,7 +167,6 @@ public class SpeechRecognition {
 
         // ask for clarification if the command isn't clear.
         return -1;
-
 
 
     }
