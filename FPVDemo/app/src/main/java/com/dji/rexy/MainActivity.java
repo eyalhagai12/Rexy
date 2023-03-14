@@ -1,5 +1,7 @@
 package com.dji.rexy;
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.AudioFormat;
@@ -17,6 +19,10 @@ import android.view.TextureView.SurfaceTextureListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.dji.rexy.R;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -53,10 +59,12 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private LogCustom log;
     private T2S speaker;
     private SpeechRecognition speech_utils;
+    private AndroidSpeechRecognition speechRec;
     private Timer timer;
 
     // Speech2Text params
     private final static int REQUEST_RECORD_AUDIO = 13;
+    public static final Integer RecordAudioRequestCode = 1;
     private final static int AUDIO_LEN_IN_SECOND = 4;
     private final static int SAMPLE_RATE = 16000;
     private final static int RECORDING_LENGTH = SAMPLE_RATE * AUDIO_LEN_IN_SECOND;
@@ -171,6 +179,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         timer.schedule(t, 0, 100);
         // init Text 2 Speech engine
         speaker = new TextToSpeechAPI(getApplicationContext());
+        speechRec = new AndroidSpeechRecognition(this.voice_command_view, getApplicationContext(), this.record_button, UI_commands, speaker, this);
     }
 
     private void initUI() {
@@ -353,7 +362,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 break;
 
             case R.id.record_button:
-                this.record();
+//                this.record();
+                this.speechRec.recognition();
                 break;
 
             default:
@@ -378,6 +388,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(
                     new String[]{android.Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},RecordAudioRequestCode);
+            }
         }
     }
 
