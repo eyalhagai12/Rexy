@@ -31,6 +31,7 @@ public class FlightCommandsAPI {
     public FlightCommandsAPI(LogCustom main_log, TextView bat_stat){
         initFlightController();
         bat_status = bat_stat;
+        initListeners();
         // init log variables
         log = main_log;
         log.setController(flightController);
