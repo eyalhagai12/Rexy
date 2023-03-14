@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.Locale;
 
-public class TextToSpeechAPI {
+public class TextToSpeechAPI implements T2S{
 
     private TextToSpeech speaker;
     private Context appContext;

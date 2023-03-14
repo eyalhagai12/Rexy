@@ -51,11 +51,11 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private FlightCommandUI UI_commands;
     private Handler handler;
     private LogCustom log;
-    private TextToSpeechAPI speaker;
+    private T2S speaker;
+    private SpeechRecognition speech_utils;
     private Timer timer;
 
     // Speech2Text params
-    private Module module = null;
     private final static int REQUEST_RECORD_AUDIO = 13;
     private final static int AUDIO_LEN_IN_SECOND = 4;
     private final static int SAMPLE_RATE = 16000;
@@ -63,7 +63,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private int mStart = 1;
     private HandlerThread mTimerThread;
     private Handler mTimerHandler;
-    private SpeechRecognition speech_utils;
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -296,46 +295,57 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         switch (v.getId()) {
             case R.id.take_off_button:
                 UI_commands.takeoff();
+                speakCommand(0);
                 break;
 
             case R.id.land_button:
                 UI_commands.land();
+                speakCommand(1);
                 break;
 
             case R.id.forward_button:
                 UI_commands.forward();
+                speakCommand(2);
                 break;
 
             case R.id.backward_button:
                 UI_commands.backward();
+                speakCommand(3);
                 break;
 
             case R.id.yaw_left_button:
                 UI_commands.yaw_left();
+                speakCommand(6);
                 break;
 
             case R.id.yaw_right_button:
                 UI_commands.yaw_right();
+                speakCommand(7);
                 break;
 
             case R.id.turn_left_button:
                 UI_commands.turn_left();
+                speakCommand(4);
                 break;
 
             case R.id.turn_right_button:
                 UI_commands.turn_right();
+                speakCommand(5);
                 break;
 
             case R.id.up_button:
                 UI_commands.up();
+                speakCommand(8);
                 break;
 
             case R.id.down_button:
                 UI_commands.down();
+                speakCommand(9);
                 break;
 
             case R.id.stop_button:
                 UI_commands.stop();
+                speakCommand(10);
                 break;
 
             case R.id.save_button:
@@ -507,6 +517,15 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         mTimerThread.start();
         mTimerHandler = new Handler(mTimerThread.getLooper());
         mTimerHandler.postDelayed(mRunnable, 1000);
+    }
+
+    private void speakCommand(int commandKey){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                speaker.keyToSpeech(commandKey);
+            }
+        });
     }
 
 

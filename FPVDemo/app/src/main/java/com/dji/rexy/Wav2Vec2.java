@@ -25,12 +25,12 @@ public class Wav2Vec2 implements SpeechModel{
 
     @Override
     public String transcribe(float[] inputBuffer) {
-        double wav2vecinput[] = new double[RECORDING_LENGTH];
+        double[] wav2vec2input = new double[RECORDING_LENGTH];
         for (int n = 0; n < RECORDING_LENGTH; n++)
-            wav2vecinput[n] = inputBuffer[n];
+            wav2vec2input[n] = inputBuffer[n];
 
         FloatBuffer inTensorBuffer = Tensor.allocateFloatBuffer(RECORDING_LENGTH);
-        for (double val : wav2vecinput)
+        for (double val : wav2vec2input)
             inTensorBuffer.put((float)val);
 
         Tensor inTensor = Tensor.fromBlob(inTensorBuffer, new long[]{1, RECORDING_LENGTH});
