@@ -78,6 +78,7 @@ public class ConnectionActivity extends Activity implements View.OnClickListener
         IntentFilter filter = new IntentFilter();
         filter.addAction(FPVDemoApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
+
     }
 
     /**

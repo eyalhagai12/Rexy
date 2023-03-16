@@ -83,6 +83,9 @@ public class TextToSpeechAPI implements T2S{
             case 12:
                 speak("Slowing down");
                 break;
+            case -1:
+                speak("Can't understand your request");
+                break;
 
         }
     }
@@ -137,6 +140,9 @@ public class TextToSpeechAPI implements T2S{
                 break;
             case 12:
                 speak("מאט");
+                break;
+            case -1:
+                speak("לא ניתן להבין את הפקודה");
                 break;
 
         }

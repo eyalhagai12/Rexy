@@ -1,208 +1,376 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/button_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:orientation="horizontal">-->
+
+    <ImageButton
+        android:id="@+id/save_button"
+        android:layout_width="50dp"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="356dp"
+        android:layout_marginEnd="324dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/sae_icon" />
+
+    <ImageButton
+        android:id="@+id/stop_button"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="285dp"
+        android:layout_marginEnd="395dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/stop_icon" />
+
+    <ImageButton
+        android:id="@+id/record_button"
+        android:layout_width="wrap_content"
+        android:layout_height="61dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="224dp"
+        android:layout_marginEnd="456dp"
+        android:layout_marginBottom="3dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/record_icon" />
+
+    <ImageButton
+        android:id="@+id/take_off_button"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="421dp"
+        android:layout_marginEnd="259dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/takeoff" />
+
+    <ImageButton
+        android:id="@+id/land_button"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="482dp"
+        android:layout_marginEnd="199dp"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/land" />
+
+    <ImageButton
+        android:id="@+id/turn_left_button"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="23dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/left_one" />
+
+    <ImageButton
+        android:id="@+id/backward_button"
+        android:layout_width="56dp"
+        android:layout_height="54dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="69dp"
+        android:layout_marginBottom="3dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/down_one" />
+
+    <ImageButton
+        android:id="@+id/forward_button"
+        android:layout_width="59dp"
+        android:layout_height="49dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="61dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/one_arrow_black" />
+
+    <ImageButton
+        android:id="@+id/turn_right_button"
+        android:layout_width="56dp"
+        android:layout_height="54dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="22dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/right_one" />
+
+    <ImageButton
+        android:id="@+id/down_button"
+        android:layout_width="58dp"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="2dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/down_two" />
+
+    <ImageButton
+        android:id="@+id/yaw_right_button"
+        android:layout_width="67dp"
+        android:layout_height="56dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="145dp"
+        android:layout_marginBottom="23dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/right_two" />
+
     <TextureView
         android:id="@+id/video_previewer_surface"
         android:layout_width="match_parent"
-        android:layout_height="316dp"
-        android:layout_above="@id/button_layout"
+        android:layout_height="314dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginBottom="120dp" />
 
-    <LinearLayout
-        android:id="@+id/button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SAVE"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/land_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Land"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/take_off_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Take-off"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/yaw_left_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Yaw left"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/yaw_right_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Yaw right"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/backward_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Back-ward"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/forward_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="For-ward"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/turn_left_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Left"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/turn_right_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Right"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/stop_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Stop"
-            android:textSize="14sp" />
-
-        <!--        <ToggleButton-->
-<!--            android:id="@+id/toggle_vs_button"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:layout_weight="1"-->
-<!--            android:checked="false"-->
-<!--            android:text="Enable virtual sticks"-->
-<!--            android:textOff="Enable virtual sticks"-->
-<!--            android:textOn="Disable virtual sticks"-->
-<!--            android:textSize="16dp" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/info"-->
-<!--            android:layout_width="8dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="0dp"-->
-<!--            android:layout_marginTop="0dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:gravity="center"-->
-<!--            android:text="Status"-->
-<!--            android:textColor="#000000"-->
-<!--            tools:visibility="visible" />-->
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="79dp"
-        android:layout_height="31dp"
-        android:layout_above="@+id/button_layout"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="4dp"
-        android:text="Status"
-        android:textSize="16sp"
-        android:visibility="visible"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/Battery_status"
-        android:layout_width="52dp"
-        android:layout_height="32dp"
-        android:layout_above="@+id/button_layout"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="3dp"
-        android:layout_toEndOf="@+id/status"
-        android:text="Bat"
-        android:textSize="16sp"
-        android:visibility="visible"
-        tools:visibility="visible" />
-
-    <Button
+    <ImageButton
         android:id="@+id/up_button"
         android:layout_width="58dp"
-        android:layout_height="48dp"
-        android:layout_above="@+id/button_layout"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="-7dp"
-        android:layout_toEndOf="@+id/Battery_status"
-        android:text="up"
-        android:textSize="20sp" />
+        android:layout_height="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="55dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/two_arrows_white" />
 
-    <Button
-        android:id="@+id/down_button"
-        android:layout_width="80dp"
-        android:layout_height="48dp"
-        android:layout_above="@+id/button_layout"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="-3dp"
-        android:layout_toEndOf="@+id/up_button"
-        android:text="Down"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/record_button"
-        android:layout_width="82dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_layout"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="-3dp"
-        android:layout_toEndOf="@+id/down_button"
-        android:text="Record" />
-
-    <TextView
-        android:id="@+id/command_text"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_above="@+id/button_layout"
+    <ImageButton
+        android:id="@+id/yaw_left_button"
+        android:layout_width="68dp"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="1dp"
-        android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/record_button"
-        android:text="command"
-        tools:visibility="visible" />
+        android:layout_marginBottom="26dp"
+        android:contentDescription="hi"
+        android:scaleType="fitXY"
+        android:src="@drawable/left_two" />
 
-    <Button
-        android:id="@+id/lang_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_layout"
-        android:layout_marginStart="196dp"
-        android:layout_marginBottom="0dp"
-        android:layout_toEndOf="@+id/command_text"
-        android:text="HE" />
 
-    <!--    <LinearLayout-->
+    <!--        <Button-->
+<!--            android:id="@+id/save_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="SAVE"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/land_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Land"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/take_off_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Take-off"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/yaw_left_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Yaw left"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/yaw_right_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Yaw right"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/backward_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Back-ward"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/forward_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="For-ward"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/turn_left_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Left"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/turn_right_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Right"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/stop_button"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Stop"-->
+<!--            android:textSize="14sp" />-->
+
+<!--        &lt;!&ndash;        <ToggleButton&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/toggle_vs_button"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_gravity="center_vertical"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_weight="1"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:checked="false"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:text="Enable virtual sticks"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textOff="Enable virtual sticks"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textOn="Disable virtual sticks"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textSize="16dp" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;        <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/info"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginLeft="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginTop="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_weight="1"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:text="Status"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textColor="#000000"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:visibility="visible" />&ndash;&gt;-->
+<!--    </LinearLayout>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/status"-->
+<!--        android:layout_width="79dp"-->
+<!--        android:layout_height="31dp"-->
+<!--        android:layout_above="@+id/button_layout"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_marginStart="2dp"-->
+<!--        android:layout_marginBottom="4dp"-->
+<!--        android:text="Status"-->
+<!--        android:textSize="16sp"-->
+<!--        android:visibility="visible"-->
+<!--        tools:visibility="visible" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/Battery_status"-->
+<!--        android:layout_width="52dp"-->
+<!--        android:layout_height="32dp"-->
+<!--        android:layout_above="@+id/button_layout"-->
+<!--        android:layout_marginStart="2dp"-->
+<!--        android:layout_marginBottom="3dp"-->
+<!--        android:layout_toEndOf="@+id/status"-->
+<!--        android:text="Bat"-->
+<!--        android:textSize="16sp"-->
+<!--        android:visibility="visible"-->
+<!--        tools:visibility="visible" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/up_button"-->
+<!--        android:layout_width="58dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_above="@+id/button_layout"-->
+<!--        android:layout_marginStart="5dp"-->
+<!--        android:layout_marginBottom="-7dp"-->
+<!--        android:layout_toEndOf="@+id/Battery_status"-->
+<!--        android:text="up"-->
+<!--        android:textSize="20sp" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/down_button"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_above="@+id/button_layout"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginBottom="-3dp"-->
+<!--        android:layout_toEndOf="@+id/up_button"-->
+<!--        android:text="Down"-->
+<!--        android:textSize="16sp" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/record_button"-->
+<!--        android:layout_width="82dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_above="@+id/button_layout"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_marginBottom="-3dp"-->
+<!--        android:layout_toEndOf="@+id/down_button"-->
+<!--        android:text="Record" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/command_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="34dp"-->
+<!--        android:layout_above="@+id/button_layout"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:layout_marginBottom="4dp"-->
+<!--        android:layout_toEndOf="@+id/record_button"-->
+<!--        android:text="command"-->
+<!--        tools:visibility="visible" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/lang_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_above="@+id/button_layout"-->
+<!--        android:layout_marginStart="196dp"-->
+<!--        android:layout_marginBottom="0dp"-->
+<!--        android:layout_toEndOf="@+id/command_text"-->
+<!--        android:text="HE" />-->
+
+<!--    &lt;!&ndash;    <LinearLayout&ndash;&gt;-->
 <!--        android:id="@+id/info_layout"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="34dp"-->

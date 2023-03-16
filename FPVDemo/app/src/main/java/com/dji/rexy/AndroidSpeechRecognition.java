@@ -9,14 +9,15 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.ArrayList;
 
 public class AndroidSpeechRecognition {
 
     private SpeechRecognizer speechRecognizer;
-    private TextView result;
-    private Button micButton;
+//    private TextView result;
+    private ImageButton micButton;
     private Context context;
     private FlightCommandUI UI_commands;
     private T2S speaker;
@@ -25,9 +26,9 @@ public class AndroidSpeechRecognition {
     private boolean isRecording;
     private String language;
     final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-    public AndroidSpeechRecognition(TextView init_result, Context init_context, Button init_button, FlightCommandUI init_ui_commands, T2S init_speaker, Activity init_activity){
+    public AndroidSpeechRecognition(Context init_context, ImageButton init_button, FlightCommandUI init_ui_commands, T2S init_speaker, Activity init_activity){
         this.context = init_context;
-        this.result = init_result;
+//        this.result = init_result;
         this.micButton = init_button;
         this.UI_commands = init_ui_commands;
         this.speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this.context);
@@ -49,12 +50,13 @@ public class AndroidSpeechRecognition {
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle bundle) {
-                micButton.setText(new String("Record"));
+//                micButton.setText(new String("Record"));
             }
 
             @Override
             public void onBeginningOfSpeech() {
-                micButton.setText(new String("Listening..."));
+//                micButton.setText(new String("Listening..."));
+                micButton.setImageResource(R.drawable.recording_icon);
             }
 
             @Override
@@ -79,9 +81,10 @@ public class AndroidSpeechRecognition {
 
             @Override
             public void onResults(Bundle bundle) {
-                micButton.setText(new String("Record"));
+//                micButton.setText(new String("Record"));
+                micButton.setImageResource(R.drawable.record_icon);
                 ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                result.setText(data.get(0));
+//                result.setText(data.get(0));
                 int commandKey = -1;
                 if (language.equalsIgnoreCase("en-US"))
                     commandKey = parser.parseCommandEnglish(data.get(0));
