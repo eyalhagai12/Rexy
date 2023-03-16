@@ -4,6 +4,6 @@ public interface Parser {
 
     public int parseCommandEnglish(String command);
     public int parseCommandHebrew(String command);
-    boolean list_contain(String[] lst, String target);
+
 
 }

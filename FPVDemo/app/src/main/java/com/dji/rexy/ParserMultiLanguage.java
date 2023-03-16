@@ -199,8 +199,7 @@ public class ParserMultiLanguage implements Parser{
         return -1;
     }
 
-    @Override
-    public boolean list_contain(String[] lst, String target){
+    private boolean list_contain(String[] lst, String target){
         for (String str : lst){
             if (str.equalsIgnoreCase(target)){
                 return true;
