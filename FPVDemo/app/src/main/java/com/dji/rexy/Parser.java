@@ -2,7 +2,8 @@ package com.dji.rexy;
 
 public interface Parser {
 
-    public void parseCommandEnglish(String command);
-    public void parseCommandHebrew(String command);
+    public int parseCommandEnglish(String command);
+    public int parseCommandHebrew(String command);
+    boolean list_contain(String[] lst, String target);
 
 }
