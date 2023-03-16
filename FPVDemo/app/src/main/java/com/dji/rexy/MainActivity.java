@@ -2,15 +2,10 @@ package com.dji.rexy;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
-import android.media.AudioFormat;
-import android.media.AudioRecord;
-import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
@@ -41,7 +36,7 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.pytorch.Module;
 
-public class MainActivity extends Activity implements SurfaceTextureListener, OnClickListener, Runnable {
+public class MainActivity extends Activity implements SurfaceTextureListener, OnClickListener {
 
     private static final String TAG = MainActivity.class.getName();
     protected VideoFeeder.VideoDataListener mReceivedVideoDataListener = null;
@@ -58,7 +53,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private Handler handler;
     private LogCustom log;
     private T2S speaker;
-    private SpeechRecognition speech_utils;
     private AndroidSpeechRecognition speechRec;
     private Timer timer;
 
@@ -69,20 +63,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     private final static int SAMPLE_RATE = 16000;
     private final static int RECORDING_LENGTH = SAMPLE_RATE * AUDIO_LEN_IN_SECOND;
     private int mStart = 1;
-    private HandlerThread mTimerThread;
-    private Handler mTimerHandler;
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mTimerHandler.postDelayed(mRunnable, 1000);
-
-            MainActivity.this.runOnUiThread(
-                    () -> {
-                        record_button.setText(String.format("Listening - %ds left", AUDIO_LEN_IN_SECOND - mStart));
-                        mStart += 1;
-                    });
-        }
-    };
 
     static {
         System.loadLibrary("opencv_java4");
@@ -155,7 +135,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     protected void onDestroy() {
         Log.e(TAG, "onDestroy");
         uninitPreviewer();
-        stopTimerThread();
         super.onDestroy();
     }
 
@@ -166,7 +145,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         FPVcontrol = new FlightCommandsAPI(log, bat_status);
         // A UI class for flight commands.
         UI_commands = new FlightCommandUI(this.log, this.info, this.FPVcontrol);
-        speech_utils = new SpeechRecognition(getApplicationContext(), this.log);
         // set a new timer for updating the Log each 1 second
         handler = new Handler();
         TimerTask t = new TimerTask() {
@@ -364,7 +342,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 break;
 
             case R.id.record_button:
-//                this.record();
                 this.speechRec.recognition();
                 break;
 
@@ -372,19 +349,6 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 break;
             default:
                 break;
-        }
-    }
-
-    // Speech2Text methods
-    protected void stopTimerThread() {
-        mTimerThread.quitSafely();
-        try {
-            mTimerThread.join();
-            mTimerThread = null;
-            mTimerHandler = null;
-            mStart = 1;
-        } catch (InterruptedException e) {
-            Log.e(TAG, "Error on stopping background thread", e);
         }
     }
 
@@ -400,142 +364,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         }
     }
 
-    private void showTranslationResult(String result) {
-        voice_command_view.setText(new String(result));
-    }
-
-    @Override
-    public void run() {
-
-        log.setDebug("RUN speech");
-        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
-        float[] floatInputBuffer = speech_utils.recordAudio();
-        stopTimerThread();
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                record_button.setText("Recognizing...");
-            }
-        });
-
-        showToast("Start recognition");
-        final String result = speech_utils.recognize(floatInputBuffer);
-        log.setDebug("Result is ready");
-
-        // perform the desired command
-        boolean command_executed = this.voice_command_execute(result);
-        if (command_executed){
-            showToast("Command executed successfully!");
-        }
-        else{
-            showToast("Command failed / Command not clear!");
-        }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showTranslationResult(result);
-                record_button.setEnabled(true);
-                record_button.setText("Record");
-            }
-        });
-    }
-
-
-    private boolean voice_command_execute(String command){
-        /*
-            This method parse the voice command.
-            If the command key is -1, it will return false as the
-            command isn't clear.
-            Else, it will perform the desired command and will return
-            true if the command executed successfully.
-         */
-        // parse the predicted voice command.
-        int command_key = speech_utils.parseCommand(command);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                speaker.keyToSpeech(command_key);
-            }
-        });
-        // perform the command:
-        switch (command_key){
-            case -1:
-                // return false, the command isn't clear!
-                return false;
-            case 0:
-                // Takeoff
-                UI_commands.takeoff();
-                break;
-            case 1:
-                // Land
-                UI_commands.land();
-                break;
-            case 2:
-                // Forward
-                UI_commands.forward();
-                break;
-            case 3:
-                // Backward
-                UI_commands.backward();
-                break;
-            case 4:
-                // Turn left
-                UI_commands.turn_left();
-                break;
-            case 5:
-                // Turn right
-                UI_commands.turn_right();
-                break;
-            case 6:
-                // Yaw left
-                UI_commands.yaw_left();
-                break;
-            case 7:
-                // Yaw right
-                UI_commands.yaw_right();
-                break;
-            case 8:
-                // Up
-                UI_commands.up();
-                break;
-            case 9:
-                // Down
-                UI_commands.down();
-                break;
-            case 10:
-                // Stop
-                UI_commands.stop();
-                break;
-            case 11:
-                UI_commands.speedUp();
-                break;
-            case 12:
-                UI_commands.slowDown();
-                break;
-            default:
-                // Command not clear!
-                return false;
-        }
-        return true;
-    }
-
-
     private void save_log(){
         timer.cancel();
         log.close();
         showToast("Log Saved!");
-    }
-
-    private void record(){
-        record_button.setText(String.format("Listening - %ds left", AUDIO_LEN_IN_SECOND));
-        record_button.setEnabled(false);
-        Thread thread = new Thread(MainActivity.this);
-        thread.start();
-        mTimerThread = new HandlerThread("Timer");
-        mTimerThread.start();
-        mTimerHandler = new Handler(mTimerThread.getLooper());
-        mTimerHandler.postDelayed(mRunnable, 1000);
     }
 
     private void speakCommand(int commandKey){

@@ -2,28 +2,17 @@ package com.dji.rexy;
 
 import android.app.Activity;
 import android.os.Build;
-
 import androidx.annotation.NonNull;
-
 import java.io.File;
 import java.io.FileWriter;
 import com.opencsv.CSVWriter;
-
-import org.jboss.netty.util.TimerTask;
-
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 import dji.common.battery.BatteryState;
 import dji.common.flightcontroller.Attitude;
-import dji.common.gimbal.CapabilityKey;
 import dji.common.gimbal.GimbalState;
-import dji.common.util.DJIParamMinMaxCapability;
 import dji.sdk.battery.Battery;
 import dji.sdk.flightcontroller.FlightController;
 import dji.sdk.gimbal.Gimbal;
