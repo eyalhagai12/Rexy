@@ -32,11 +32,15 @@ public class AndroidSpeechRecognition {
         this.speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this.context);
         this.speaker = init_speaker;
         this.mainActivity = init_activity;
-        this.isRecording = false;
-        this.language = "he-IL";
+        init_params();
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, this.language);
         init_listeners();
+    }
+
+    private void init_params(){
+        this.isRecording = false;
+        this.language = "he-IL";
     }
 
     private void init_listeners(){
