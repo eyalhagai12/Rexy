@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/menu_title"
+        android:layout_width="203dp"
+        android:layout_height="68dp"
+        android:text="Rexy"
+        android:textAlignment="center"
+        android:textColor="#00569A"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.08" />
+
+    <Button
+        android:id="@+id/voice_commands_button"
+        android:layout_width="191dp"
+        android:layout_height="52dp"
+        android:background="#88305768"
+        android:text="Controller"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menu_title"
+        app:layout_constraintVertical_bias="0.288" />
+
+    <Button
+        android:id="@+id/intro_button"
+        android:layout_width="191dp"
+        android:layout_height="52dp"
+        android:background="#88305768"
+        android:text="instructions"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FlyTap_button"
+        app:layout_constraintVertical_bias="0.256" />
+
+    <Button
+        android:id="@+id/FlyTap_button"
+        android:layout_width="191dp"
+        android:layout_height="52dp"
+        android:background="#88305768"
+        android:text="Fly & Tap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/voice_commands_button"
+        app:layout_constraintVertical_bias="0.164" />
+</androidx.constraintlayout.widget.ConstraintLayout>

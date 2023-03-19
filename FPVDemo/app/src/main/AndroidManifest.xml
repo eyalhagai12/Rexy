@@ -73,6 +73,12 @@
         <activity
             android:name="com.dji.rexy.MainActivity"
             android:screenOrientation="sensorLandscape" />
+
+        <activity
+            android:name="com.dji.rexy.MenuBar"
+            android:screenOrientation="portrait" />
+
+
     </application>
 
 </manifest>

@@ -22,6 +22,7 @@
         android:layout_marginStart="356dp"
         android:layout_marginEnd="324dp"
         android:layout_marginBottom="4dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/sae_icon" />
@@ -36,6 +37,7 @@
         android:layout_marginStart="285dp"
         android:layout_marginEnd="395dp"
         android:layout_marginBottom="4dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/stop_icon" />
@@ -50,6 +52,7 @@
         android:layout_marginStart="224dp"
         android:layout_marginEnd="456dp"
         android:layout_marginBottom="3dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/record_icon" />
@@ -64,6 +67,7 @@
         android:layout_marginStart="421dp"
         android:layout_marginEnd="259dp"
         android:layout_marginBottom="4dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/takeoff" />
@@ -78,6 +82,7 @@
         android:layout_marginStart="482dp"
         android:layout_marginEnd="199dp"
         android:layout_marginBottom="5dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/land" />
@@ -90,6 +95,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="130dp"
         android:layout_marginBottom="23dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/left_one" />
@@ -102,6 +108,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="69dp"
         android:layout_marginBottom="3dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/down_one" />
@@ -114,6 +121,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="68dp"
         android:layout_marginBottom="61dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/one_arrow_black" />
@@ -126,6 +134,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="22dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/right_one" />
@@ -138,6 +147,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="80dp"
         android:layout_marginBottom="2dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/down_two" />
@@ -150,6 +160,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="145dp"
         android:layout_marginBottom="23dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/right_two" />
@@ -157,9 +168,9 @@
     <TextureView
         android:id="@+id/video_previewer_surface"
         android:layout_width="match_parent"
-        android:layout_height="314dp"
+        android:layout_height="300dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="120dp" />
+        android:layout_marginBottom="110dp" />
 
     <ImageButton
         android:id="@+id/up_button"
@@ -171,7 +182,8 @@
         android:layout_marginBottom="55dp"
         android:contentDescription="hi"
         android:scaleType="fitXY"
-        android:src="@drawable/two_arrows_white" />
+        android:src="@drawable/two_arrows_white"
+        android:background="#00FFFFFF" />
 
     <ImageButton
         android:id="@+id/yaw_left_button"
@@ -181,6 +193,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="1dp"
         android:layout_marginBottom="26dp"
+        android:background="#00FFFFFF"
         android:contentDescription="hi"
         android:scaleType="fitXY"
         android:src="@drawable/left_two" />
