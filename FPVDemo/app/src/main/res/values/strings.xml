@@ -16,5 +16,7 @@
     <string name="SpinLeft">Spin Left</string>
     <string name="Emergency">Emergency</string>
     <string name="Hover">Hover</string>
-
+    <string name="Controller">Controller</string>
+    <string name="TapFly">Tap-Fly</string>
+    <string name="Instructions">Instructions</string>
 </resources>
