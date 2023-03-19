@@ -40,6 +40,7 @@ public class AndroidSpeechRecognition {
         init_listeners();
     }
 
+
     private void init_listeners(){
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
