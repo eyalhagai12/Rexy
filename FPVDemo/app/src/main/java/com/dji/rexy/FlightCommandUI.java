@@ -13,10 +13,9 @@ public class FlightCommandUI {
     private FlightCommandsAPI FPVcontrol;
     private float pitch, roll, yaw, throttle;
 
-    public FlightCommandUI(LogCustom init_log, TextView init_info, FlightCommandsAPI init_fpv){
+    public FlightCommandUI(LogCustom init_log, FlightCommandsAPI init_fpv){
         this.log = init_log;
         this.FPVcontrol = init_fpv;
-        this.info = init_info;
         this.pitch = (float)0.5;
         this.roll = (float)0.2;
         this.yaw = (float)5;

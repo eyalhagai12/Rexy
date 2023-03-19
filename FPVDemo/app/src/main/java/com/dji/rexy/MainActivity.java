@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.TextureView.SurfaceTextureListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +45,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
 
-    private Button forward_button, backward_button, turn_left_button, turn_right_button, land_button,
+    private ImageButton forward_button, backward_button, turn_left_button, turn_right_button, land_button,
             takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button,
             down_button, record_button, lang_button;
-    private TextView info, bat_status, voice_command_view;
+//    private TextView info, bat_status, voice_command_view;
     private FlightCommandsAPI FPVcontrol;
     private FlightCommandUI UI_commands;
     private Handler handler;
@@ -142,9 +143,9 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         // create log instance
         log = new LogCustom(getExternalFilesDir("LOG"));
         // create Flight Controller instance wrapped with FPV-API
-        FPVcontrol = new FlightCommandsAPI(log, bat_status);
+        FPVcontrol = new FlightCommandsAPI(log);
         // A UI class for flight commands.
-        UI_commands = new FlightCommandUI(this.log, this.info, this.FPVcontrol);
+        UI_commands = new FlightCommandUI(this.log, this.FPVcontrol);
         // set a new timer for updating the Log each 1 second
         handler = new Handler();
         TimerTask t = new TimerTask() {
@@ -157,7 +158,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         timer.schedule(t, 0, 100);
         // init Text 2 Speech engine
         speaker = new TextToSpeechAPI(getApplicationContext());
-        speechRec = new AndroidSpeechRecognition(this.voice_command_view, getApplicationContext(), this.record_button, UI_commands, speaker, this);
+        speechRec = new AndroidSpeechRecognition(getApplicationContext(), this.record_button, UI_commands, speaker, this);
     }
 
     private void initUI() {
@@ -166,10 +167,10 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         if (null != mVideoSurface) {
             mVideoSurface.setSurfaceTextureListener(this);
         }
-        info = findViewById(R.id.status);
-        info.setText(new String("Floor"));
-        bat_status = findViewById(R.id.Battery_status);
-        bat_status.setText(new String("100"));
+//        info = findViewById(R.id.status);
+//        info.setText(new String("Floor"));
+//        bat_status = findViewById(R.id.Battery_status);
+//        bat_status.setText(new String("100"));
         forward_button = findViewById(R.id.forward_button);
         backward_button = findViewById(R.id.backward_button);
         yaw_left_button = findViewById(R.id.yaw_left_button);
@@ -183,8 +184,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         save_button = findViewById(R.id.save_button);
         stop_button = findViewById(R.id.stop_button);
         record_button = findViewById(R.id.record_button);
-        voice_command_view = findViewById(R.id.command_text);
-        lang_button = findViewById(R.id.lang_button);
+//        voice_command_view = findViewById(R.id.command_text);
+//        lang_button = findViewById(R.id.lang_button);
     }
 
     private void initListeners() {
@@ -201,7 +202,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         up_button.setOnClickListener(this);
         down_button.setOnClickListener(this);
         record_button.setOnClickListener(this);
-        lang_button.setOnClickListener(this);
+//        lang_button.setOnClickListener(this);
 
         // The callback for receiving the raw H264 video data for camera live view
         mReceivedVideoDataListener = new VideoFeeder.VideoDataListener() {
@@ -345,8 +346,8 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
                 this.speechRec.recognition();
                 break;
 
-            case R.id.lang_button:
-                break;
+//            case R.id.lang_button:
+//                break;
             default:
                 break;
         }

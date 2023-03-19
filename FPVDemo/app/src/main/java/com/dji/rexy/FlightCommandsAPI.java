@@ -22,15 +22,13 @@ public class FlightCommandsAPI {
     private FlightController flightController;
     private LogCustom log;
     private Aircraft aircraft;
-    private TextView bat_status;
     private FlightControlData flightcontroldata;
     private volatile float pitch, roll, yaw, throttle, gimbal_pitch;
     private volatile String command_name;
     private static final String TAG = FlightCommandsAPI.class.getName();
 
-    public FlightCommandsAPI(LogCustom main_log, TextView bat_stat){
+    public FlightCommandsAPI(LogCustom main_log){
         initFlightController();
-        bat_status = bat_stat;
         initListeners();
         // init log variables
         log = main_log;
@@ -168,7 +166,7 @@ public class FlightCommandsAPI {
         aircraft.getBattery().setStateCallback(new BatteryState.Callback() {
             @Override
             public void onUpdate(BatteryState batteryState) {
-                bat_status.setText(Integer.toString(batteryState.getLifetimeRemaining()));
+//                bat_status.setText(Integer.toString(batteryState.getLifetimeRemaining()));
             }
         });
     }
