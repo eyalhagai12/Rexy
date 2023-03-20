@@ -198,6 +198,13 @@
         android:scaleType="fitXY"
         android:src="@drawable/left_two" />
 
+    <ImageView
+        android:id="@+id/test_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="110dp" />
+
 
     <!--        <Button-->
 <!--            android:id="@+id/save_button"-->

@@ -2,6 +2,7 @@ package com.dji.rexy;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.TextureView.SurfaceTextureListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     // Codec for video live view
     protected DJICodecManager mCodecManager = null;
     protected TextureView mVideoSurface = null;
+    private ImageView testImg;
 
     private ImageButton forward_button, backward_button, turn_left_button, turn_right_button, land_button,
             takeoff_button, save_button, stop_button, yaw_right_button, yaw_left_button, up_button,
@@ -186,6 +189,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         record_button = findViewById(R.id.record_button);
 //        voice_command_view = findViewById(R.id.command_text);
 //        lang_button = findViewById(R.id.lang_button);
+        testImg = findViewById(R.id.test_view);
     }
 
     private void initListeners() {
@@ -265,6 +269,9 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+//        mVideoSurface.setVisibility(View.INVISIBLE);
+        Bitmap sourceBitmap = Bitmap.createScaledBitmap(mVideoSurface.getBitmap(),mVideoSurface.getWidth(),mVideoSurface.getHeight(),false);
+        testImg.setImageBitmap(sourceBitmap);
     }
 
     public void showToast(final String msg) {
