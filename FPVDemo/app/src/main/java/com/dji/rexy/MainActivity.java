@@ -34,8 +34,11 @@ import dji.sdk.camera.VideoFeeder;
 import dji.sdk.codec.DJICodecManager;
 import dji.sdk.useraccount.UserAccountManager;
 
+import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.pytorch.Module;
 
@@ -271,7 +274,22 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 //        mVideoSurface.setVisibility(View.INVISIBLE);
         Bitmap sourceBitmap = Bitmap.createScaledBitmap(mVideoSurface.getBitmap(),mVideoSurface.getWidth(),mVideoSurface.getHeight(),false);
-        testImg.setImageBitmap(sourceBitmap);
+        Mat src = new Mat(sourceBitmap.getHeight(), sourceBitmap.getWidth(), CvType.CV_8UC1);
+        Utils.bitmapToMat(sourceBitmap, src);
+        Mat gray = new Mat(src.rows(), src.cols(), src.type());
+        Mat edges = new Mat(src.rows(), src.cols(), src.type());
+        Mat dst = new Mat(src.rows(), src.cols(), src.type(), new Scalar(0));
+        //Converting the image to Gray
+        Imgproc.cvtColor(src, gray, Imgproc.COLOR_RGBA2GRAY);
+        //Blurring the image
+        Imgproc.blur(gray, edges, new Size(3, 3));
+        //Detecting the edges
+        Imgproc.Canny(edges, edges, 100, 100*3);
+        //Copying the detected edges to the destination matrix
+        src.copyTo(dst, edges);
+        Bitmap resultBitmap = Bitmap.createScaledBitmap(mVideoSurface.getBitmap(),mVideoSurface.getWidth(),mVideoSurface.getHeight(),false);
+        Utils.matToBitmap(dst, resultBitmap);
+        testImg.setImageBitmap(resultBitmap);
     }
 
     public void showToast(final String msg) {

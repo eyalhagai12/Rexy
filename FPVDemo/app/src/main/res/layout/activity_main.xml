@@ -168,7 +168,7 @@
     <TextureView
         android:id="@+id/video_previewer_surface"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="299dp"
         android:layout_gravity="center"
         android:layout_marginBottom="110dp" />
 
@@ -203,7 +203,8 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="110dp" />
+        android:layout_marginBottom="110dp"
+        android:layout_above="@+id/video_previewer_surface"/>
 
 
     <!--        <Button-->
