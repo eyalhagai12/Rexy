@@ -284,7 +284,7 @@ public class MainActivity extends Activity implements SurfaceTextureListener, On
         //Blurring the image
         Imgproc.blur(gray, edges, new Size(3, 3));
         //Detecting the edges
-        Imgproc.Canny(edges, edges, 100, 100*3);
+        Imgproc.Canny(edges, edges, 20, 20*3);
         //Copying the detected edges to the destination matrix
         src.copyTo(dst, edges);
         Bitmap resultBitmap = Bitmap.createScaledBitmap(mVideoSurface.getBitmap(),mVideoSurface.getWidth(),mVideoSurface.getHeight(),false);
