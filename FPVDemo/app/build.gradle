@@ -6,7 +6,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '30.0.2'
     useLibrary 'org.apache.http.legacy'
     packagingOptions {
@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "com.dji.rexy"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         multiDexEnabled true
         ndk {
             // On x86 devices that run Android API 23 or above, if the application is targeted with API 23 or
@@ -100,5 +100,6 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'com.opencsv:opencsv:5.3'
     implementation 'org.pytorch:pytorch_android_lite:1.12.1'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
 }
