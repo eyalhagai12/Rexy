@@ -20,6 +20,14 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+
+    <!-- Google map permissions -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
@@ -27,6 +35,9 @@
         android:required="false" />
     <uses-feature
         android:name="android.hardware.usb.accessory"
+        android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
         android:required="true" />
 
     <!-- SDK requirement permission end -->
@@ -47,6 +58,12 @@
         <meta-data
             android:name="com.dji.sdk.API_KEY"
             android:value="d55ff837c9aa487c0678e287" />
+        <!-- Google maps -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAcqabTHwuntQbf1Z4Wi7VFs8jLdIAKG0U" />
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <service android:name="dji.sdk.sdkmanager.DJIGlobalService" >
         </service>
