@@ -24,6 +24,8 @@ import androidx.core.content.ContextCompat;
 import com.dji.rexy.R;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import dji.common.camera.SettingsDefinitions;
 import dji.common.error.DJIError;
 import dji.common.product.Model;
 import dji.common.useraccount.UserAccountState;
